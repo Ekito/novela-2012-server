@@ -38,4 +38,18 @@ public class LocationControllerTest {
 		Result result = routeAndCall(fakeRequest);
 		assertThat(status(result)).isEqualTo(400);
 	}
+	
+	@Test
+	public void testCenter() {
+		FakeRequest fakeRequest = fakeRequest(GET, "/location/center/AN_ID");
+		Result result = routeAndCall(fakeRequest);
+		assertThat(status(result)).isEqualTo(OK);
+	}
+	
+	@Test
+	public void testBadCenter() {
+		FakeRequest fakeRequest = fakeRequest(GET, "/location/center");
+		Result result = routeAndCall(fakeRequest);
+		assertThat(result).isNull();
+	}
 }
