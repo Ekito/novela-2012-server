@@ -18,5 +18,4 @@ public class LocationForm {
 	
 	@Required
 	public String userId;
-
 }

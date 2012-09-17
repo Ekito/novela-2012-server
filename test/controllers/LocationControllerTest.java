@@ -1,27 +1,32 @@
 package controllers;
 
+import static org.fest.assertions.Assertions.assertThat;
+import static play.mvc.Http.Status.OK;
+import static play.test.Helpers.GET;
+import static play.test.Helpers.POST;
+import static play.test.Helpers.fakeRequest;
+import static play.test.Helpers.routeAndCall;
+import static play.test.Helpers.status;
+
 import java.util.Date;
 import java.util.HashMap;
 
-import org.junit.*;
+import org.junit.Test;
 
-import controllers.forms.LocationForm;
-
-import play.mvc.*;
-import play.test.*;
+import play.*;
 import play.data.Form;
-import play.libs.F.*;
+import play.mvc.*;
 
-import static play.test.Helpers.*;
-import static org.fest.assertions.Assertions.*;
+import play.test.FakeRequest;
+import controllers.forms.LocationForm;
 
 public class LocationControllerTest {
 
+	//TODO pass this test
+	
 //	@Test
 //	public void testAddLocation() {
 //		FakeRequest fakeRequest = fakeRequest(POST, "/location");
-//		Form<LocationForm> form = form(LocationForm.class);
-//		
 //		HashMap<String, String> args = new HashMap<String, String>();
 //		args.put("userId", "_USER_ID_");
 //		args.put("x", ""+12.0f);
