@@ -1,12 +1,22 @@
 package controllers.forms;
 
+import play.data.validation.Constraints.Required;
 
 public class LocationForm {
-
-	public Float x;
-	public Float y;
-	public Boolean isStart;
-	public Long timestamp;
-	public String userId = "";
 	
+	@Required
+	public Float x;
+	
+	@Required
+	public Float y;
+	
+	@Required
+	public Boolean isStart;
+	
+	@Required
+	public Long timestamp;
+	
+	@Required
+	public String userId;
+
 }

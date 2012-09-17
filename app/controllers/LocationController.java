@@ -20,10 +20,18 @@ public class LocationController extends Controller {
 
 	public static Result addLocation() {
 		Form<LocationForm> form = form(LocationForm.class);
-		LocationForm locationForm = form.bindFromRequest().get();
-		extractAndSaveLocation(locationForm);
-
-		return ok();
+		Form<LocationForm> bindFromRequest = form.bindFromRequest();
+		boolean hasErrors = bindFromRequest.hasErrors();
+		if (hasErrors){
+			Logger.error("addLocation errors : "+bindFromRequest.errors());
+			return badRequest();
+		}
+		else{
+			LocationForm locationForm = bindFromRequest.get();
+			extractAndSaveLocation(locationForm);
+			
+			return created();
+		}
 	}
 
 	private static void extractAndSaveLocation(LocationForm locationForm) {
