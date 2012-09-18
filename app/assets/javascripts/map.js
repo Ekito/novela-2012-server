@@ -11,7 +11,14 @@ $.map = {
 
 		this.data = data;
 
-		this.olMap = new OpenLayers.Map('map');
+		this.olMap = new OpenLayers.Map({
+			div: "map",
+			controls: [
+		        new OpenLayers.Control.Navigation({ 
+                        dragPanOptions: {enableKinetic: true} 
+                })
+		    ]
+		});
 
 		var wms = new OpenLayers.Layer.Image(
 			"White layer",
