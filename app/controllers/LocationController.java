@@ -7,6 +7,7 @@ import java.util.Map;
 
 import models.Location;
 import models.User;
+import controllers.forms.CenterForm;
 import controllers.forms.LocationForm;
 import play.*;
 import play.data.Form;
@@ -18,26 +19,24 @@ public class LocationController extends Controller {
 
 	protected static Map<String, List<Location>> locations = new HashMap<String, List<Location>>();
 
-	public static Result center(String id) {
-		Logger.info("ask centering for id : " + id);
-		if (id != null) {
-			User u = UserController.findUser(id);
-			if (u == null) {
-				Logger.warn("user id not found : " + id + " creating it ... ");
-				u = new User(id);
-				UserController.addUser(u);
-			}
+	public static Result centerMap() {
+		Form<CenterForm> bindFromRequest = form(CenterForm.class).bindFromRequest();
+		boolean hasErrors = bindFromRequest.hasErrors();
+		if (hasErrors) {
+			Logger.error("centerMap errors : " + bindFromRequest.errors());
+			return badRequest();
+		} else {
+			CenterForm centerForm = bindFromRequest.get();
+			Logger.info("ask centering for id : " + centerForm.userId);
+			User u = findOrCreateUser(centerForm.userId);
 			// TODO send center position message
 			Logger.warn("implement send message for center");
 			return ok();
-		} else {
-			return badRequest();
 		}
 	}
 
 	public static Result addLocation() {
-		Form<LocationForm> form = form(LocationForm.class);
-		Form<LocationForm> bindFromRequest = form.bindFromRequest();
+		Form<LocationForm> bindFromRequest = form(LocationForm.class).bindFromRequest();
 		boolean hasErrors = bindFromRequest.hasErrors();
 		if (hasErrors) {
 			Logger.error("addLocation errors : " + bindFromRequest.errors());
@@ -54,15 +53,20 @@ public class LocationController extends Controller {
 	private static void extractAndSaveLocation(LocationForm locationForm) {
 		Location l = new Location(locationForm.x, locationForm.y,
 				locationForm.isStart, locationForm.timestamp);
-		User u = UserController.findUser(locationForm.userId);
-		if (u == null) {
-			Logger.warn("user id not found : " + locationForm.userId
-					+ " creating it ... ");
-			u = new User(locationForm.userId);
-			UserController.addUser(u);
-		}
+		User u = findOrCreateUser(locationForm.userId);
 		l.setUser(u);
 		saveLocation(locationForm.userId, l);
+	}
+
+	private static User findOrCreateUser(String id) {
+		User u = UserController.findUser(id);
+		if (u == null) {
+			Logger.warn("user id not found : " + id
+					+ " creating it ... ");
+			u = new User(id);
+			UserController.addUser(u);
+		}
+		return u;
 	}
 
 	public static void saveLocation(String userId, Location l) {
