@@ -19,5 +19,12 @@
 	<bean id="connectionFactory" class="org.apache.activemq.pool.PooledConnectionFactory">
 		<constructor-arg ref="amqConnectionFactory" />
 	</bean>
+	
+	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
+		<property name="connectionFactory" ref="connectionFactory" />
+	</bean>
+	
+	<amq:topic id="locationTopic" name="LocationTopic"
+		physicalName="LocationTopic" />
 
 </beans>

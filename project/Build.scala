@@ -15,6 +15,7 @@ object ApplicationBuild extends Build {
     val appDependencies = Seq(
       "com.github.julienrf" %% "play-jsmessages" % "1.2.1",
       "org.springframework" % "spring-context" % "3.1.2.RELEASE",
+      "org.springframework" % "spring-jms" % "3.1.2.RELEASE",
       "org.apache.activemq" % "activemq-core" % "5.6.0",
       "org.apache.xbean" % "xbean-spring" % "3.11.1"
     )
