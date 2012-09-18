@@ -3,3 +3,9 @@ h2. Javascript dependencies
 The following libraries have been used in the project :
 
 * "Twitter Bootstrap 2.1.1":https://github.com/twitter/bootstrap/tree/v2.1.1
+
+h2. Deployment in production
+
+To configure the JMS Broker Url, create the file @"conf/spring.jms-prod.properties"@ with the following content:
+
+bc.. jms.broker.url=<BROKER_URL>
