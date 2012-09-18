@@ -28,7 +28,7 @@ public class LocationProducer {
 			@Override
 			public Message createMessage(final Session session)
 					throws JMSException {
-				return session.createTextMessage("coucou");
+				return session.createObjectMessage(aLocation);
 			}
 		});
 	}
