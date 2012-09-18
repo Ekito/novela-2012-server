@@ -11,3 +11,4 @@ dist
 .settings
 .project
 conf/spring/jms-prod.properties
+activemq-data/
