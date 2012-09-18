@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           controllers.Application.index()
+GET     /map                        controllers.Application.fullScreenMap()
 POST	/location					controllers.LocationController.addLocation()
 GET		/location/center/:id		controllers.LocationController.center(id : String)
 
