@@ -17,11 +17,15 @@
         <link rel="apple-touch-icon" type="image/png" sizes="114x114" href="@routes.Assets.at("images/touch-icon-iphone4.png")">
     </head>
     <body>
+
+        @header()
+
         <div id="wrapper">
 			<div class="container-fluid">
         		@content
 			</div>
 		</div>
+
         <footer>powered by <a href="http://ekito.fr"><img src="@routes.Assets.at("images/logo_ekito.jpeg")"></a></footer>
 
 		<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>

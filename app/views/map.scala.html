@@ -3,9 +3,20 @@
 }
 
 @javascript = {
+	<script src="http://openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/data.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/sketchy.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/sketchytrack.js")" type="text/javascript"></script>
+
+	<script src="@routes.Assets.at("javascripts/map.js")" type="text/javascript"></script>
 }
 
 
 @main(Messages("title"))(javascript)(css) {
-<h1>Work in Progress</h1>
+
+	<div  id="map" data-bg="@routes.Assets.at("images/white.png")">
+
+	<a href="#" onclick="map.setCenter([stubs[0][0].lon,stubs[0][0].lat],15);">center map</a>
+
+	</div>
 }
