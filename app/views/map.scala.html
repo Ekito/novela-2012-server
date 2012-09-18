@@ -9,6 +9,11 @@
 	<script src="@routes.Assets.at("javascripts/sketchytrack.js")" type="text/javascript"></script>
 
 	<script src="@routes.Assets.at("javascripts/map.js")" type="text/javascript"></script>
+	<script type="text/javascript">
+		$(
+			$.map.init(stubs)
+		);
+	</script>
 }
 
 
@@ -16,7 +21,7 @@
 
 	<div  id="map" data-bg="@routes.Assets.at("images/white.png")">
 
-	<a href="#" onclick="map.setCenter([stubs[0][0].lon,stubs[0][0].lat],15);">center map</a>
+	<a href="#" onclick="$.map.moveToCenter();">center map</a>
 
 	</div>
 }
