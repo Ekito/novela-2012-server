@@ -1,10 +1,5 @@
 package controllers;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import messaging.LocationProducer;
 import models.Location;
 import models.User;
@@ -18,8 +13,6 @@ import controllers.forms.LocationForm;
 
 public class LocationController extends Controller {
 
-	protected static Map<String, List<Location>> locations = new HashMap<String, List<Location>>();
-
 	public static Result centerMap() {
 		Form<CenterForm> bindFromRequest = form(CenterForm.class)
 				.bindFromRequest();
@@ -30,7 +23,7 @@ public class LocationController extends Controller {
 		} else {
 			CenterForm centerForm = bindFromRequest.get();
 			Logger.info("ask centering for id : " + centerForm.userId);
-			User u = findOrCreateUser(centerForm.userId);
+			User u = User.findOrCreateUser(centerForm.userId);
 			// TODO send center position message
 			Logger.warn("implement send message for center");
 			return ok();
@@ -47,49 +40,25 @@ public class LocationController extends Controller {
 			return badRequest();
 		} else {
 			LocationForm locationForm = bindFromRequest.get();
-			extractAndSaveLocation(locationForm);
+			Location location = extractAndSaveLocation(locationForm);
 
 			LocationProducer locationProducer = Global
 					.getBean(LocationProducer.class);
+
+			locationProducer.publishLocation(location);
 
 			return created();
 		}
 	}
 
-	private static void extractAndSaveLocation(final LocationForm locationForm) {
+	private static Location extractAndSaveLocation(
+			final LocationForm locationForm) {
 		Location l = new Location(locationForm.x, locationForm.y,
 				locationForm.isStart, locationForm.timestamp);
-		User u = findOrCreateUser(locationForm.userId);
+		User u = User.findOrCreateUser(locationForm.userId);
 		l.setUser(u);
-		saveLocation(locationForm.userId, l);
-	}
-
-	private static User findOrCreateUser(final String id) {
-		User u = UserController.findUser(id);
-		if (u == null) {
-			Logger.warn("user id not found : " + id + " creating it ... ");
-			u = new User(id);
-			UserController.addUser(u);
-		}
-		return u;
-	}
-
-	public static void saveLocation(final String userId, final Location l) {
-		boolean writeList = false;
-
-		Logger.info("saveLocation for id " + userId + " x:" + l.getX() + " y:"
-				+ l.getY());
-
-		List<Location> list = locations.get(userId);
-		if (list == null) {
-			Logger.info("saveLocation new location list for " + userId);
-			list = new ArrayList<Location>();
-			writeList = true;
-		}
-		list.add(l);
-		if (writeList) {
-			locations.put(userId, list);
-		}
+		Location.saveLocation(locationForm.userId, l);
+		return l;
 	}
 
 }
