@@ -1,0 +1,5 @@
+h2. Javascript dependencies
+
+The following libraries have been used in the project :
+
+* "Twitter Bootstrap 2.1.1":https://github.com/twitter/bootstrap/tree/v2.1.1
