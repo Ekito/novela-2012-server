@@ -1,8 +1,5 @@
-import java.util.ArrayList;
-import java.util.List;
-
 import org.apache.activemq.xbean.XBeanBrokerService;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.GenericXmlApplicationContext;
 
 import play.Application;
 import play.GlobalSettings;
@@ -11,22 +8,24 @@ import play.Play;
 
 public class Global extends GlobalSettings {
 
-	private ClassPathXmlApplicationContext springContext;
+	private GenericXmlApplicationContext springContext;
 
 	@Override
 	public void onStart(final Application app) {
 
-		List<String> contexts = new ArrayList<String>();
-		contexts.add("/spring/spring.xml");
+		springContext = new GenericXmlApplicationContext();
 
+		String context = new String();
 		// add the embedded JMS broker in dev mode
 		if (Play.isDev()) {
-			contexts.add("/spring/jms-embedded.xml");
+			context = "/spring/spring-dev.xml";
+		} else if (Play.isProd()) {
+			context = "/spring/spring-prod.xml";
 		}
 
 		// start the Spring context
-		springContext = new ClassPathXmlApplicationContext(
-				contexts.toArray(new String[contexts.size()]), true);
+		springContext.load(context);
+		springContext.refresh();
 
 		super.onStart(app);
 	}

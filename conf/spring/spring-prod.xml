@@ -5,15 +5,15 @@
          http://www.springframework.org/schema/context
          http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<!-- Start an embedded JMS broker -->
-	<bean id="broker" class="org.apache.activemq.xbean.BrokerFactoryBean">
-		<property name="config"
-			value="classpath:/spring/embedded-activemq.xml" />
-		<property name="start" value="true" />
+	<bean id="propertyPlaceholderConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:/spring/jms-prod.properties</value>
+			</list>
+		</property>
 	</bean>
-	
-	<bean id="connectionFactory" class="org.apache.activemq.ActiveMQConnectionFactory" depends-on="broker">
-	    <property name="brokerURL" value="vm://localhost"/>
-	  </bean>
+
+	<import resource="spring-base.xml" />
 
 </beans>

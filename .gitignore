@@ -10,3 +10,4 @@ dist
 .classpath
 .settings
 .project
+conf/spring/jms-prod.properties
