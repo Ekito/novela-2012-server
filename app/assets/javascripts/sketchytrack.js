@@ -1,5 +1,7 @@
 Sketchytrack = {};
 
+var isSafari = navigator.userAgent.indexOf("Safari") > -1;
+
 var BRUSH_SIZE = 1,
     BRUSH_PRESSURE = 2,
     COLOR = [0, 0, 0];
@@ -54,7 +56,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	moveTo: function(bounds, zoomChanged) {
 
-		OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
+		// OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
 
 		if (!bounds.intersectsBounds(this.globalBounds)) 
 			return;
@@ -84,10 +86,13 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	    console.log(this.tracks);
 
-		this.brush.beginPath();
+		if (!isSafari) {
+			this.brush.beginPath();
+		}
+
 	    for (var i in this.tracks) {
 
-	    	start = new Date().getMilliseconds();
+	 //    	start = new Date().getMilliseconds();
 
 	    	if (!bounds.intersectsBounds(this.tracksBounds[i])) 
 	    		continue;
@@ -108,12 +113,14 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		    }
 	    	
 	    	// call this for optimization
-	    	// this.brush.clearPoints();
+	    	//this.brush.clearPoints();
 
-			console.log(new Date().getMilliseconds()-start);
+		// 	console.log(new Date().getMilliseconds()-start);
 		}
 
-		this.brush.stroke();
+		if (!isSafari) {
+			this.brush.stroke();
+		}
 
 		this.brush.clearPoints();
 
