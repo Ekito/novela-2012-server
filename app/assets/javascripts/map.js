@@ -63,8 +63,17 @@ $.map = {
 		this.olMap.zoomToExtent(bounds);
 	},
 
-	setPosition: function(point) {
+	/* center the map to display every points of a track */
+	showTrack: function(id) {
+		var bounds = this.olTracks.tracksBounds[id];
+		if (!bounds) return;
+		this.olMap.zoomToExtent(bounds);
+	},
 
+	/* center the map to a position */
+	setCenter: function(point,level) {
+		var lonlat = new OpenLayers.LonLat(point.lon, point.lat);
+		this.olMap.setCenter(lonlat,level);
 	},
 
 	/* add a track */
@@ -101,7 +110,7 @@ $.map = {
 		.after(
 			"<a onclick='$.map.showAllTracks();' class='olControlCenter olButton'>"+
 				"<i class='icon-globe icon-white'></i>"+
-			"</a>"
+			"w</a>"
 		);
 	}
 }
