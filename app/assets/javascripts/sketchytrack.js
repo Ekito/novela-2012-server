@@ -1,11 +1,5 @@
 Sketchytrack = {};
 
-var isSafari = navigator.userAgent.indexOf("Safari") > -1;
-
-var BRUSH_SIZE = 1,
-    BRUSH_PRESSURE = 2,
-    COLOR = [0, 0, 0];
-
 Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	brush: null,
@@ -129,7 +123,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	    console.log(this.tracks);
 
-		if (!isSafari) {
+		if (!$.constant.IS_SAFARI) {
 			this.brush.beginPath();
 		}
 
@@ -161,7 +155,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		// 	console.log(new Date().getMilliseconds()-start);
 		}
 
-		if (!isSafari) {
+		if (!$.constant.IS_SAFARI) {
 			this.brush.stroke();
 		}
 

@@ -1,17 +1,12 @@
 $.map = {
 
-	/* Blocks of lat/lon coordinates to be displayed on the map */
-	data: null,
-
 	/* OpenLayers map object */
 	olMap: null,
 
 	/* OpenLayers Sketchytrack layer that contains every displayed paths */
-	tracks: null,
+	olTracks: null,
 
 	init: function(data) {
-
-		this.data = data;
 
 		this.olMap = new OpenLayers.Map("map");
 
@@ -32,12 +27,12 @@ $.map = {
 		this.olMap.addLayer(wms);
 
 		/* Build Sketchytrack layer */
-		this.tracks = new Sketchytrack.Layer("SampleTrack");
-		for(var i in this.data) 
+		this.olTracks = new Sketchytrack.Layer("SampleTrack");
+		for(var i in data) 
 		{
-	 		this.addTrack(i,this.data[i]);
+	 		this.addTrack(i,data[i]);
 		}
-		this.olMap.addLayer(this.tracks);
+		this.olMap.addLayer(this.olTracks);
 
 		this.moveToCenter();
 
@@ -45,23 +40,23 @@ $.map = {
 
 	/* center the map to display every points of Sketchytrack layer */
 	moveToCenter: function() {
-		var bounds = this.tracks.globalBounds;
+		var bounds = this.olTracks.globalBounds;
 		this.olMap.zoomToExtent(bounds);
 	},
 
 	/* add a track */
 	addTrack: function(id,track,options) {
-		this.tracks.addTrack(id,track);
+		this.olTracks.addTrack(id,track);
 		this.runOptions(options);
 	},
 
 	addPointToTrack: function(id,point,options) {
-		this.tracks.addPointToTrack(id,point);
+		this.olTracks.addPointToTrack(id,point);
 		this.runOptions(options);
 	},
 
 	addPointsToTrack: function(id,points,options) {
-		this.tracks.addPointsToTrack(id,points);
+		this.olTracks.addPointsToTrack(id,points);
 		this.runOptions(options);
 	},
 
@@ -70,7 +65,7 @@ $.map = {
 		if (!options) return;
 
 		if (options.redraw)
-			this.tracks.redraw();
+			this.olTracks.redraw();
 
 		if (options.center)
 			this.moveToCenter();
