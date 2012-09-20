@@ -13,6 +13,8 @@ $.map = {
 		/* kinetic effect on the map */
 		this.olMap.addControl(new OpenLayers.Control.Navigation({dragPanOptions: {enableKinetic: true}}));
 
+		this.addCenterMapBtn();
+
 		/* White layer */
 		var wms = new OpenLayers.Layer.Image(
 			"White layer",
@@ -69,5 +71,9 @@ $.map = {
 
 		if (options.center)
 			this.moveToCenter();
+	},
+
+	addCenterMapBtn: function() {
+		$(".olButton.olControlZoomOut").after("<a onclick='$.map.moveToCenter();' class='olControlCenter olButton'><i class='icon-globe icon-white'></i></a>")
 	}
 }
