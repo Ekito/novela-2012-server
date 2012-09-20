@@ -26,8 +26,8 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		this.canvas.style.position = 'absolute';
 		this.brush = new sketchy(this.canvas.getContext('2d'));
 
-		this.tracks = [];
-		this.tracksBounds = [];
+		this.tracks = {};
+		this.tracksBounds = {};
 		this.globalBounds = new OpenLayers.Bounds();
 		this.interpolatedPoints = [];
 
@@ -79,7 +79,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		}
 	},
 
-	addTrack: function(track) {
+	addTrack: function(id,track) {
 		var localBounds = new OpenLayers.Bounds();
 		var point = new OpenLayers.Geometry.Point();
 		
@@ -91,8 +91,8 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 			localBounds.extend(point);		
 			this.globalBounds.extend(point);
 		}
-		this.tracks.push(track);
-		this.tracksBounds.push(localBounds);
+		this.tracks[id] = track;
+		this.tracksBounds[id] = localBounds;
 	},
 
 	moveTo: function(bounds, zoomChanged) {

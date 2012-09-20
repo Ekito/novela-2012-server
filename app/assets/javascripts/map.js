@@ -35,7 +35,7 @@ $.map = {
 		this.tracks = new Sketchytrack.Layer("SampleTrack");
 		for(var i in this.data) 
 		{
-	 		this.addTrack(this.data[i]);
+	 		this.addTrack(i,this.data[i]);
 		}
 		this.olMap.addLayer(this.tracks);
 
@@ -50,8 +50,8 @@ $.map = {
 	},
 
 	/* add a track */
-	addTrack: function(track,options) {
-		this.tracks.addTrack(track);
+	addTrack: function(trackId,track,options) {
+		this.tracks.addTrack(trackId,track);
 		this.runOptions(options);
 	},
 
