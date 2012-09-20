@@ -38,6 +38,47 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 	    this.div.appendChild(sub);
 	},
 
+	addPointToTrack: function(trackId,point,localBounds,geometryPt,track) {
+
+		if (!track && !this.tracks[trackId]) {
+			console.log("track doesn't exist!")
+			return;
+		}
+		
+		var track = this.tracks[trackId];
+		
+		if (!localBounds) {
+			localBounds = this.tracksBounds[trackId];
+		}
+
+		if (!geometryPt) {
+			geometryPt = new OpenLayers.Geometry.Point();
+		}
+
+		geometryPt.x = point.lon;
+		geometryPt.y = point.lat;
+
+		localBounds.extend(geometryPt);
+		this.globalBounds.extend(geometryPt);
+
+		track.push(point);
+	},
+
+	addPointsToTrack: function(trackId,points) {
+
+		if (!this.tracks[trackId]) {
+			console.log("track doesn't exist!")
+			return;
+		}
+
+		var localBounds = this.tracksBounds[trackId];
+		var geometryPt = new OpenLayers.Geometry.Point();
+
+		for (i in points) {
+			this.addPointToTrack(trackId,points[i],localBounds,geometryPt)
+		}
+	},
+
 	addTrack: function(track) {
 		var localBounds = new OpenLayers.Bounds();
 		var point = new OpenLayers.Geometry.Point();
@@ -57,6 +98,8 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 	moveTo: function(bounds, zoomChanged) {
 
 		// OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
+
+		console.log(this.globalBounds);
 
 		if (!bounds.intersectsBounds(this.globalBounds)) 
 			return;
