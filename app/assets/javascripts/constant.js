@@ -2,6 +2,7 @@ $.constant = {
 
 	/* Browser */
 	IS_SAFARI: navigator.userAgent.indexOf("Safari") > -1,
+	IS_FIREFOX: navigator.userAgent.indexOf("Firefox") > -1,
 
 	/* Brush */
 	BRUSH_SIZE: 1,
