@@ -50,18 +50,18 @@ $.map = {
 	},
 
 	/* add a track */
-	addTrack: function(trackId,track,options) {
-		this.tracks.addTrack(trackId,track);
+	addTrack: function(id,track,options) {
+		this.tracks.addTrack(id,track);
 		this.runOptions(options);
 	},
 
-	addPointToTrack: function(trackId,point,options) {
-		this.tracks.addPointToTrack(trackId,point);
+	addPointToTrack: function(id,point,options) {
+		this.tracks.addPointToTrack(id,point);
 		this.runOptions(options);
 	},
 
-	addPointsToTrack: function(trackId,points,options) {
-		this.tracks.addPointsToTrack(trackId,points);
+	addPointsToTrack: function(id,points,options) {
+		this.tracks.addPointsToTrack(id,points);
 		this.runOptions(options);
 	},
 
