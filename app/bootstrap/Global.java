@@ -15,7 +15,7 @@ public class Global extends GlobalSettings {
 	@Override
 	public void onStart(final Application app) {
 
-		loadSpringContext();
+		//loadSpringContext();
 
 		super.onStart(app);
 	}
@@ -38,7 +38,7 @@ public class Global extends GlobalSettings {
 
 	@Override
 	public void onStop(final Application app) {
-		destroySpringContext();
+		//destroySpringContext();
 
 		super.onStop(app);
 	}
