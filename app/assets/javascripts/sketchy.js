@@ -57,27 +57,27 @@ sketchy.prototype =
 			this.context.stroke();
 		}
 
-		for (i = 0; i < this.points.length; i++)
-		{
-			dx = this.points[i][0] - this.points[this.count][0];
-			dy = this.points[i][1] - this.points[this.count][1];
-			d = dx * dx + dy * dy;
+		// for (i = 0; i < this.points.length; i++)
+		// {
+		// 	dx = this.points[i][0] - this.points[this.count][0];
+		// 	dy = this.points[i][1] - this.points[this.count][1];
+		// 	d = dx * dx + dy * dy;
 
-			if (d < 4000 && Math.random() > (d / 2000))
-			{
-				if ($.constant.IS_SAFARI || $.constant.IS_FIREFOX) {
-					this.context.beginPath();
-				}
+		// 	if (d < 4000 && Math.random() > (d / 500))
+		// 	{
+		// 		if ($.constant.IS_SAFARI || $.constant.IS_FIREFOX) {
+		// 			this.context.beginPath();
+		// 		}
 
-				this.context.moveTo( this.points[this.count][0] + (dx * 0.3), this.points[this.count][1] + (dy * 0.3));
-				this.context.lineTo( this.points[i][0] - (dx * 0.3), this.points[i][1] - (dy * 0.3));
+		// 		this.context.moveTo( this.points[this.count][0] + (dx * 0.3), this.points[this.count][1] + (dy * 0.3));
+		// 		this.context.lineTo( this.points[i][0] - (dx * 0.3), this.points[i][1] - (dy * 0.3));
 
-				if ($.constant.IS_SAFARI || $.constant.IS_FIREFOX) {
-					this.context.stroke();
-				}
-			}
+		// 		if ($.constant.IS_SAFARI || $.constant.IS_FIREFOX) {
+		// 			this.context.stroke();
+		// 		}
+		// 	}
 
-		}
+		// }
 
 		this.prevMouseX = mouseX;
 		this.prevMouseY = mouseY;
