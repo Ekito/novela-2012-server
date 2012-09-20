@@ -110,7 +110,7 @@ $.map = {
 		.after(
 			"<a onclick='$.map.showAllTracks();' class='olControlCenter olButton'>"+
 				"<i class='icon-globe icon-white'></i>"+
-			"w</a>"
+			"</a>"
 		);
 	}
 }

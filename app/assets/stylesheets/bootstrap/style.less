@@ -37,6 +37,13 @@ html, body {
 				width: 30px;
 				line-height: 28px;
 				background-color: @black;
+				cursor: pointer;
+
+				.transition(all 200ms ease-out);
+
+				&:hover {
+					background-color: lighten(@black,40%);
+				}
 
 				&.olControlCenter {
 
