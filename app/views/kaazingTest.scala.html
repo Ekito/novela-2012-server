@@ -10,17 +10,17 @@
 			
 				function setup() {
 	
-		            var connect = document.getElementById("connect");
-	
-	
 		            function onMessage(message) {
-		            	$("#body").append(message + '<br>')
-		              console.log(message)
+		            	
+		            	var body = message.getText();
+		            	
+		            	
+		            	$("#body").append(body + '<br>')
+		              	console.log(message)
 		            }
 	
 		            var connection = null;
 	
-		            connect.onclick = function() {
 		                stompConnectionFactory = new StompConnectionFactory("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms");
 	
 	
@@ -57,7 +57,6 @@
 		                        connection = null;
 		                    }
 		                }
-		            }
 	
 		        }
 			
@@ -67,9 +66,7 @@
 		</script>
     </head>
     <body>
-    	<div>
-            <button id="connect">Connect</button>
-        </div>
+    	<h2>Waiting for locations...</h2>
 		<div id="body">
 		</div>
 
