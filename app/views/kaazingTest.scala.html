@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+    	<meta name="kaazing:postMessageBridgeURL" content="PostMessageBridge.html">
+   		<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("javascripts/kaazing/StompJms.js")" type="text/javascript"></script>
+		<script type="text/javascript">
+		$(document).ready(function() {
+			
+				function setup() {
+	
+		            var connect = document.getElementById("connect");
+	
+	
+		            function onMessage(message) {
+		            	$("#body").append(message + '<br>')
+		              console.log(message)
+		            }
+	
+		            var connection = null;
+	
+		            connect.onclick = function() {
+		                stompConnectionFactory = new StompConnectionFactory("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms");
+	
+	
+		            if (connection == null) {
+		                var connectionFuture = stompConnectionFactory.createConnection("","", function () {
+		                    try {
+			                        connection = connectionFuture.getValue();
+		
+		
+			                        var session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+		
+			                        var topic = session.createTopic("/topic/LocationTopic");
+			                        var consumer = session.createConsumer(topic);
+		
+				                    consumer.setMessageListener(onMessage);
+				                    connection.start(function () { 
+				                   		console.log("Connected to the WS Gateway") 
+				                        }
+				                    );
+	
+		                        } catch (e) {
+		                            alert(e.message);
+		                            console.log(e)
+		                        }
+		                    });
+		                }
+		                else {
+		                    try {
+		                        connection.close(function () { 
+		                        	console.log("Disconnected from the WS Gateway") 
+								 });
+		                    }
+		                    finally {
+		                        connection = null;
+		                    }
+		                }
+		            }
+	
+		        }
+			
+				setup();
+			}
+		);
+		</script>
+    </head>
+    <body>
+    	<div>
+            <button id="connect">Connect</button>
+        </div>
+		<div id="body">
+		</div>
+
+    </body>
+</html>

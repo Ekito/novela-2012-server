@@ -15,6 +15,6 @@
 	</bean>
 
 	<import resource="spring-base.xml" />
-	<import resource="jms-embedded.xml" />
+	<!-- import resource="jms-embedded.xml" /-->
 
 </beans>

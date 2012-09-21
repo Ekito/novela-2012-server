@@ -4,6 +4,32 @@ The following libraries have been used in the project :
 
 * "Twitter Bootstrap 2.1.1":https://github.com/twitter/bootstrap/tree/v2.1.1
 
+h2. Kaazing Gateway
+
+h3. Kaazing Gateway installation
+
+The Kaazing Gateway JMS Edition is deployed on Amazon EC2 as a single instance (https://console.aws.amazon.com/ec2/home?region=eu-west-1&#s=Instances)
+The instance is unstoppable: if you "terminate" it, you'll have to relaunch one from scratch using the "JMS Edition / EU West (Ireland)" AMI from "http://kaazing.com/cloud/aws/amis":http://kaazing.com/cloud/aws/amis
+
+When starting a new Kaazing Gateway, you'll get a new DNS name provided by Amazon (but if you simply reboot the instance, you'll keep the same DNS name).
+
+h3. Kaazing Gateway configuration
+
+You can connect on the Kaazing instance using SSH.
+
+You have to tweak the default configuration in the @"/etc/kaazing/jms/3.4/conf/gateway-config.xml"@ file (use @sudo@ to edit the file):
+
+# add a cross-site-constraint in order to allow the Javascript client to connect to the Gateway:
+
+bc.. 
+<cross-site-constraint>
+    <allow-origin>http://<CLIENT_DOMAIN_NAME>:<PORT></allow-origin>
+</cross-site-constraint>
+
+p. When you finished to edit the file, restart the Gateway:
+
+@$> sudo restart kaazing-jms-3.4@
+
 h2. Deployment in production
 
 To configure the JMS Broker Url, create the file @"conf/spring.jms-prod.properties"@ with the following content:
