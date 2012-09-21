@@ -1,12 +1,9 @@
 package bootstrap;
 
-import org.apache.activemq.xbean.XBeanBrokerService;
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import play.Application;
 import play.GlobalSettings;
-import play.Logger;
-import play.Play;
 
 public class Global extends GlobalSettings {
 
@@ -23,16 +20,8 @@ public class Global extends GlobalSettings {
 	protected void loadSpringContext() {
 		springContext = new GenericXmlApplicationContext();
 
-		String context = new String();
-		// add the embedded JMS broker in dev mode
-		if (Play.isDev()) {
-			context = "/spring/spring-dev.xml";
-		} else if (Play.isProd()) {
-			context = "/spring/spring-prod.xml";
-		}
-
 		// start the Spring context
-		springContext.load(context);
+		springContext.load("/spring/springContext.xml");
 		springContext.refresh();
 	}
 
@@ -44,16 +33,6 @@ public class Global extends GlobalSettings {
 	}
 
 	protected void destroySpringContext() {
-		XBeanBrokerService brokerService = springContext
-				.getBean(XBeanBrokerService.class);
-
-		if (brokerService != null) {
-			try {
-				brokerService.stop();
-			} catch (Exception e) {
-				Logger.error("Error stopping the JMS broker", e);
-			}
-		}
 
 		// close the spring context
 		springContext.close();
