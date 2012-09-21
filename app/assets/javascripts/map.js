@@ -13,6 +13,8 @@ $.map = {
 		/* kinetic effect on the map */
 		this.olMap.addControl(new OpenLayers.Control.Navigation({dragPanOptions: {enableKinetic: true}}));
 
+		this.addCenterMapBtn();
+
 		/* White layer */
 		var wms = new OpenLayers.Layer.Image(
 			"White layer",
@@ -34,27 +36,59 @@ $.map = {
 		}
 		this.olMap.addLayer(this.olTracks);
 
-		this.moveToCenter();
+		this.showAllTracks();
 
 	},
 
+	/*
+	Format of parameters:
+	---------------------
+
+		point = {"lat":43.601364,"lon":1.441976};
+		points = [
+			{"lat":43.601364,"lon":1.441976},
+			...
+			{"lat":43.601384,"lon":1.442043}
+		];
+		options = {
+			redraw: [Boolean],	// redraw the layer
+			center: [Boolean]	// call showAllTracks
+		}
+
+	*/
+
 	/* center the map to display every points of Sketchytrack layer */
-	moveToCenter: function() {
+	showAllTracks: function() {
 		var bounds = this.olTracks.globalBounds;
 		this.olMap.zoomToExtent(bounds);
 	},
 
+	/* center the map to display every points of a track */
+	showTrack: function(id) {
+		var bounds = this.olTracks.tracksBounds[id];
+		if (!bounds) return;
+		this.olMap.zoomToExtent(bounds);
+	},
+
+	/* center the map to a position */
+	setCenter: function(point,level) {
+		var lonlat = new OpenLayers.LonLat(point.lon, point.lat);
+		this.olMap.setCenter(lonlat,level);
+	},
+
 	/* add a track */
-	addTrack: function(id,track,options) {
-		this.olTracks.addTrack(id,track);
+	addTrack: function(id,points,options) {
+		this.olTracks.addTrack(id,points);
 		this.runOptions(options);
 	},
 
+	/* add a point to a track */
 	addPointToTrack: function(id,point,options) {
 		this.olTracks.addPointToTrack(id,point);
 		this.runOptions(options);
 	},
 
+	/* add multiple points to a track */
 	addPointsToTrack: function(id,points,options) {
 		this.olTracks.addPointsToTrack(id,points);
 		this.runOptions(options);
@@ -68,6 +102,15 @@ $.map = {
 			this.olTracks.redraw();
 
 		if (options.center)
-			this.moveToCenter();
+			this.showAllTracks();
+	},
+
+	addCenterMapBtn: function() {
+		$(".olButton.olControlZoomOut")
+		.after(
+			"<a onclick='$.map.showAllTracks();' class='olControlCenter olButton'>"+
+				"<i class='icon-globe icon-white'></i>"+
+			"</a>"
+		);
 	}
 }

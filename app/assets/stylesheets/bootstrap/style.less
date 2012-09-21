@@ -30,6 +30,30 @@ html, body {
 			bottom: 0;
 			width: 94%;
 			left: 3%;
+
+			a.olButton {
+
+				height: 30px;
+				width: 30px;
+				line-height: 28px;
+				background-color: @black;
+				cursor: pointer;
+
+				.transition(all 200ms ease-out);
+
+				&:hover {
+					background-color: lighten(@black,40%);
+				}
+
+				&.olControlCenter {
+
+					.border-radius(4px);
+				}
+				
+				i {
+					margin-top: 6px!important;
+				}
+			}
 		}
 	}
 }

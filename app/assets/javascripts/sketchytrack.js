@@ -123,7 +123,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	    console.log(this.tracks);
 
-		if (!$.constant.IS_SAFARI) {
+		if (!$.constant.IS_SAFARI || !$.constant.IS_FIREFOX) {
 			this.brush.beginPath();
 		}
 
@@ -155,7 +155,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		// 	console.log(new Date().getMilliseconds()-start);
 		}
 
-		if (!$.constant.IS_SAFARI) {
+		if (!$.constant.IS_SAFARI || !$.constant.IS_FIREFOX) {
 			this.brush.stroke();
 		}
 
