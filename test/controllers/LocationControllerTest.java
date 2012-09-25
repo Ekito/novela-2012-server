@@ -32,7 +32,6 @@ public class LocationControllerTest {
 				args.put("lat", "12.0");
 				args.put("lon", "12.0");
 				args.put("isStart", "" + false);
-				args.put("timestamp", "" + System.currentTimeMillis());
 				Result result = routeAndCall(fakeRequest
 						.withFormUrlEncodedBody(args));
 				assertThat(status(result)).isEqualTo(CREATED);

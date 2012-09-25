@@ -57,7 +57,7 @@ public class LocationController extends Controller {
 	private static Location extractAndSaveLocation(
 			final LocationForm locationForm) {
 		Location l = new Location(locationForm.lat, locationForm.lon,
-				locationForm.isStart, locationForm.timestamp);
+				locationForm.isStart);
 		User u = User.findOrCreateUser(locationForm.userId);
 		l.setUser(u);
 		Location.saveLocation(locationForm.userId, l);

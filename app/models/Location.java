@@ -16,10 +16,9 @@ public class Location implements Serializable {
 	 */
 	private static final long serialVersionUID = 1973445298197201545L;
 
-	private Float x = 0.0f;
-	private Float y = 0.0f;
+	private Float lat = 0.0f;
+	private Float lon = 0.0f;
 	private Boolean isStart = false;
-	private Long timestamp = 0l;
 	private Date serverDate = null;
 	private User user = null;
 
@@ -27,29 +26,27 @@ public class Location implements Serializable {
 
 	}
 
-	public Location(final Float _x, final Float _y, final Boolean _isStart,
-			final Long _timestamp) {
-		x = _x;
-		y = _y;
+	public Location(final Float _x, final Float _y, final Boolean _isStart) {
+		lat = _x;
+		lon = _y;
 		isStart = _isStart;
-		timestamp = _timestamp;
 		serverDate = new Date();
 	}
 
-	public Float getX() {
-		return x;
+	public Float getLat() {
+		return lat;
 	}
 
-	public void setX(final Float x) {
-		this.x = x;
+	public void setLat(final Float x) {
+		this.lat = x;
 	}
 
-	public Float getY() {
-		return y;
+	public Float getLon() {
+		return lon;
 	}
 
-	public void setY(final Float y) {
-		this.y = y;
+	public void setLon(final Float y) {
+		this.lon = y;
 	}
 
 	public Boolean getIsStart() {
@@ -58,14 +55,6 @@ public class Location implements Serializable {
 
 	public void setIsStart(final Boolean isStart) {
 		this.isStart = isStart;
-	}
-
-	public Long getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(final Long timestamp) {
-		this.timestamp = timestamp;
 	}
 
 	public User getUser() {
@@ -89,8 +78,8 @@ public class Location implements Serializable {
 	public static void saveLocation(final String userId, final Location l) {
 		boolean writeList = false;
 
-		Logger.info("saveLocation for id " + userId + " x:" + l.getX() + " y:"
-				+ l.getY());
+		Logger.info("saveLocation for id " + userId + " lat:" + l.getLat()
+				+ " lon:" + l.getLon());
 
 		List<Location> list = locations.get(userId);
 		if (list == null) {
