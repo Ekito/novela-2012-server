@@ -5,10 +5,10 @@ import play.data.validation.Constraints.Required;
 public class LocationForm {
 	
 	@Required
-	public Float x;
+	public Float lat;
 	
 	@Required
-	public Float y;
+	public Float lon;
 	
 	@Required
 	public Boolean isStart;

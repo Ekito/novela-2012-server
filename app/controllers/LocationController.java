@@ -39,21 +39,24 @@ public class LocationController extends Controller {
 			// TODO add details about failures
 			return badRequest();
 		} else {
-			LocationForm locationForm = bindFromRequest.get();
-			Location location = extractAndSaveLocation(locationForm);
+			Location location = extractAndSaveLocation(bindFromRequest.get());
 
-			LocationProducer locationProducer = Global
-					.getBean(LocationProducer.class);
-
-			locationProducer.publishLocation(location);
+			sendLocationToConnectedClients(location);
 
 			return created();
 		}
 	}
 
+	private static void sendLocationToConnectedClients(final Location location) {
+		LocationProducer locationProducer = Global
+				.getBean(LocationProducer.class);
+
+		locationProducer.publishLocation(location);
+	}
+
 	private static Location extractAndSaveLocation(
 			final LocationForm locationForm) {
-		Location l = new Location(locationForm.x, locationForm.y,
+		Location l = new Location(locationForm.lat, locationForm.lon,
 				locationForm.isStart, locationForm.timestamp);
 		User u = User.findOrCreateUser(locationForm.userId);
 		l.setUser(u);

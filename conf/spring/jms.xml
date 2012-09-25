@@ -14,9 +14,12 @@
 		<property name="brokerURL" value="${jms.broker.url}" />
 		<property name="useAsyncSend" value="true" />
 	</bean>
+	
+	<bean id="messageConverter" class="messaging.JsonMessageConverter"/>
 
 	<bean id="jmsTemplate" class="org.springframework.jms.core.JmsTemplate">
 		<property name="connectionFactory" ref="connectionFactory" />
+		<property name="messageConverter" ref="messageConverter"/>
 	</bean>
 
 	<amq:topic id="locationTopic" name="LocationTopic"
