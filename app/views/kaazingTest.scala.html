@@ -5,62 +5,19 @@
     	<meta name="kaazing:postMessageBridgeURL" content="PostMessageBridge.html">
    		<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
 		<script src="@routes.Assets.at("javascripts/kaazing/StompJms.js")" type="text/javascript"></script>
+		<script src="@routes.Assets.at("javascripts/kaazing/kaazing.js")" type="text/javascript"></script>
 		<script type="text/javascript">
 		$(document).ready(function() {
 			
-				function setup() {
-	
-		            function onMessage(message) {
-		            	
-		            	var body = message.getText();
-		            	
-		            	
-		            	$("#body").append(body + '<br>')
-		              	console.log(message)
-		            }
-	
-		            var connection = null;
-	
-		                stompConnectionFactory = new StompConnectionFactory("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms");
-	
-	
-		            if (connection == null) {
-		                var connectionFuture = stompConnectionFactory.createConnection("","", function () {
-		                    try {
-			                        connection = connectionFuture.getValue();
-		
-		
-			                        var session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
-		
-			                        var topic = session.createTopic("/topic/LocationTopic");
-			                        var consumer = session.createConsumer(topic);
-		
-				                    consumer.setMessageListener(onMessage);
-				                    connection.start(function () { 
-				                   		console.log("Connected to the WS Gateway") 
-				                        }
-				                    );
-	
-		                        } catch (e) {
-		                            alert(e.message);
-		                            console.log(e)
-		                        }
-		                    });
-		                }
-		                else {
-		                    try {
-		                        connection.close(function () { 
-		                        	console.log("Disconnected from the WS Gateway") 
-								 });
-		                    }
-		                    finally {
-		                        connection = null;
-		                    }
-		                }
-	
-		        }
+				function onMessage(message) {
+			    	
+			    	var body = message.getText();
+			    	
+			    	$("#body").append(body + '<br>')
+			      	console.log(message)
+			    }
 			
-				setup();
+				setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage);
 			}
 		);
 		</script>

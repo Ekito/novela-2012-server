@@ -19,7 +19,8 @@ public class LocationProducer {
 
 	public void publishLocation(final Location aLocation) {
 
-		// it uses the JsonMessageConverter to serialize the object
+		// it uses messaging.JsonMessageConverter to serialize the object to
+		// Json
 		template.convertAndSend(locationTopic, aLocation);
 
 	}
