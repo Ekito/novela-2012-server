@@ -13,10 +13,26 @@
 	<script src="@routes.Assets.at("javascripts/sketchytrack.js")" type="text/javascript"></script>
 
 	<script src="@routes.Assets.at("javascripts/map.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/kaazing/StompJms.js")" type="text/javascript"></script>
+	<script src="@routes.Assets.at("javascripts/kaazing/kaazing.js")" type="text/javascript"></script>
+	
 	<script type="text/javascript">
-		$(
+	$(document).ready(function() {
 			$.map.init(stubs)
-		);
+			
+			function onMessage(message) {
+		    	
+		    	var location = JSON.parse(message.getText());
+		    	
+		      	console.log(location)
+		      	
+		      	$.map.setCenter({"lat":location.lat,"lon":location.lon})
+		    }
+		
+			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage);
+			
+		}
+	);
 	</script>
 }
 

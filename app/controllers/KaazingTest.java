@@ -18,7 +18,7 @@ public class KaazingTest extends Controller {
 		LocationProducer locationProducer = Global
 				.getBean(LocationProducer.class);
 
-		Location location = new Location(0.0F, 1.0F, true);
+		Location location = new Location(43.601364F, 1.441976F, true);
 		locationProducer.publishLocation(location);
 
 		return ok();
