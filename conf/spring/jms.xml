@@ -26,13 +26,13 @@
 		physicalName="LocationTopic" />
 
 	<!-- A simple topic consumer for debugging purpose -->
-	<bean id="echoMessageListener" class="messaging.EchoMessageListener" />
+	<!--bean id="echoMessageListener" class="messaging.EchoMessageListener" />
 	<bean id="jmsContainer"
 		class="org.springframework.jms.listener.DefaultMessageListenerContainer">
 		<property name="connectionFactory" ref="connectionFactory" />
 		<property name="destination" ref="locationTopic" />
 		<property name="messageListener" ref="echoMessageListener" />
-	</bean>
+	</bean-->
 
 
 </beans>

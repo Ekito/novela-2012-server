@@ -1,36 +1,23 @@
 package controllers;
 
-import messaging.LocationProducer;
-import models.Location;
 import play.mvc.Controller;
-import play.mvc.Http.Request;
 import play.mvc.Result;
 import simulation.Simulation;
-import bootstrap.Global;
 
 public class KaazingTest extends Controller {
 
-	public static Result kaazingTest() {
+	public static Result startSimulations() {
 
-		return ok(views.html.kaazingTest.render());
+		for (int i = 0; i <= 8; i++) {
+			Simulation.startSimulation(String.valueOf(i), request());
+		}
+
+		return ok("Simulations started...");
 	}
 
-	public static Result testMessage() {
+	public static Result startSimulation(final String userId) {
 
-		LocationProducer locationProducer = Global
-				.getBean(LocationProducer.class);
-
-		Location location = new Location(43.601364F, 1.441976F, true);
-		locationProducer.publishLocation(location);
-
-		return ok();
-	}
-
-	public static Result startSimulation(String userId) {
-
-		final Request request = request();
-
-		if (Simulation.startSimulation(userId, request) == false) {
+		if (Simulation.startSimulation(userId, request()) == false) {
 			return notFound(String.format("The user %s does not exist", userId));
 		}
 

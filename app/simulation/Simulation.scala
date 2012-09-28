@@ -8,6 +8,7 @@ import akka.actor.ActorSystem
 import akka.actor.Props
 import play.libs.Akka
 import play.api.Logger
+import com.typesafe.config.ConfigFactory
 
 /**
  * Yeah, let's write a Scala actor !
@@ -18,7 +19,7 @@ class Simulation extends Actor {
   def sendLocation(location: Location, url: String) = {
 
     // wait a little between two POST requests
-    Thread.sleep(500)
+    Thread.sleep(300)
 
     val body = Map(
       "userId" -> Seq(location.getUser.getId),
@@ -44,13 +45,14 @@ case class LocationPost(locations: List[Location], url: String)
 
 object Simulation {
 
-  val simulationActor = Akka.system.actorOf(Props[Simulation], name = "simulationActor")
+  // take a look at the application.conf file for the number of actors
+  val simulationActorSystem = Akka.system.actorOf(Props[Simulation], name = "simulation")
 
   def startSimulation(userId: String, request: Request): Boolean = {
 
     def sendLocations(locations: List[Location]): Boolean = {
 
-      simulationActor ! new LocationPost(locations, controllers.routes.LocationController.addLocation.absoluteURL(request))
+      simulationActorSystem ! new LocationPost(locations, controllers.routes.LocationController.addLocation.absoluteURL(request))
       true
     }
     val locations = Dataset.findLocations(userId)
