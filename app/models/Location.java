@@ -16,11 +16,13 @@ public class Location implements Serializable {
 	 */
 	private static final long serialVersionUID = 1973445298197201545L;
 
-	private Float lat = 0.0f;
-	private Float lon = 0.0f;
 	private Boolean isStart = false;
 	private Date serverDate = null;
 	private User user = null;
+
+	protected Float lat = 0.0f;
+
+	protected Float lon = 0.0f;
 
 	public Location() {
 
@@ -31,22 +33,6 @@ public class Location implements Serializable {
 		lon = _y;
 		isStart = _isStart;
 		serverDate = new Date();
-	}
-
-	public Float getLat() {
-		return lat;
-	}
-
-	public void setLat(final Float x) {
-		this.lat = x;
-	}
-
-	public Float getLon() {
-		return lon;
-	}
-
-	public void setLon(final Float y) {
-		this.lon = y;
 	}
 
 	public Boolean getIsStart() {
@@ -71,6 +57,22 @@ public class Location implements Serializable {
 
 	public void setServerDate(final Date serverDate) {
 		this.serverDate = serverDate;
+	}
+
+	public Float getLat() {
+		return lat;
+	}
+
+	public void setLat(final Float x) {
+		this.lat = x;
+	}
+
+	public Float getLon() {
+		return lon;
+	}
+
+	public void setLon(final Float y) {
+		this.lon = y;
 	}
 
 	protected static Map<String, List<Location>> locations = new HashMap<String, List<Location>>();

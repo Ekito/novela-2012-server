@@ -17,7 +17,8 @@ object ApplicationBuild extends Build {
       "org.springframework" % "spring-context" % "3.1.2.RELEASE",
       "org.springframework" % "spring-jms" % "3.1.2.RELEASE",
       "org.apache.activemq" % "activemq-core" % "5.6.0",
-      "org.apache.xbean" % "xbean-spring" % "3.11.1"
+      "org.apache.xbean" % "xbean-spring" % "3.11.1",
+      "commons-io" % "commons-io" % "2.4"
     )
 
     val main = PlayProject(appName, appVersion, appDependencies, mainLang = JAVA).settings(

@@ -3,13 +3,14 @@
 # ~~~~
 
 # Home page
-GET     /                           controllers.Application.index()
-GET     /map                        controllers.Application.fullScreenMap()
-POST	/location					controllers.LocationController.addLocation()
-POST	/location/center			controllers.LocationController.centerMap()
+GET     /                           	controllers.Application.index()
+GET     /map                        	controllers.Application.fullScreenMap()
+POST	/location						controllers.LocationController.addLocation()
+POST	/location/center				controllers.LocationController.centerMap()
 
-GET     /kaazing                    controllers.KaazingTest.kaazingTest()
-GET     /test                       controllers.KaazingTest.testMessage()
+GET     /kaazing                    	controllers.KaazingTest.kaazingTest()
+GET     /test                       	controllers.KaazingTest.testMessage()
+GET     /simulation/start/:userId	   controllers.KaazingTest.startSimulation(userId:String)
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

@@ -31,6 +31,7 @@ public class LocationController extends Controller {
 	}
 
 	public static Result addLocation() {
+
 		Form<LocationForm> bindFromRequest = form(LocationForm.class)
 				.bindFromRequest();
 		boolean hasErrors = bindFromRequest.hasErrors();
