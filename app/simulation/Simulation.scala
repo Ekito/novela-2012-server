@@ -9,6 +9,10 @@ import akka.actor.Props
 import play.libs.Akka
 import play.api.Logger
 import com.typesafe.config.ConfigFactory
+import akka.routing.RoundRobinRouter
+import akka.actor.ReceiveTimeout
+import akka.util.Duration
+import java.util.concurrent.TimeUnit
 
 /**
  * Yeah, let's write a Scala actor !
@@ -19,7 +23,7 @@ class Simulation extends Actor {
   def sendLocation(location: Location, url: String) = {
 
     // wait a little between two POST requests
-    Thread.sleep(300)
+    Thread.sleep(500)
 
     val body = Map(
       "userId" -> Seq(location.getUser.getId),
@@ -30,13 +34,17 @@ class Simulation extends Actor {
 
   }
 
+  override def preStart() = {
+    Logger.debug("Initializing a new simulation actor")
+  }
+
   def receive = {
     case locationPost: LocationPost => {
 
       locationPost.locations.foreach(location => sendLocation(location, locationPost.url))
 
     }
-    case _ => Logger.error("Unknow message")
+    case x => Logger.error("Unknow message " + x)
   }
 
 }
@@ -46,7 +54,7 @@ case class LocationPost(locations: List[Location], url: String)
 object Simulation {
 
   // take a look at the application.conf file for the number of actors
-  val simulationActorSystem = Akka.system.actorOf(Props[Simulation], name = "simulation")
+  val simulationActorSystem = Akka.system.actorOf(Props[Simulation].withRouter(new RoundRobinRouter(5)), name = "simulation")
 
   def startSimulation(userId: String, request: Request): Boolean = {
 
