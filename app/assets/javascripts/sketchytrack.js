@@ -32,11 +32,17 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 	    this.div.appendChild(sub);
 	},
 
+	createTrack: function(id) {
+		if (!this.tracks[id]) {
+			this.tracks[id] = [];
+			this.tracksBounds[id] = new OpenLayers.Bounds();
+		}
+	},
+
 	addPointToTrack: function(id,point,localBounds,geometryPt,track) {
 
 		if (!track && !this.tracks[id]) {
-			console.log("track doesn't exist!")
-			return;
+			this.createTrack(id);
 		}
 		
 		var track = this.tracks[id];
@@ -61,8 +67,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 	addPointsToTrack: function(id,points) {
 
 		if (!this.tracks[id]) {
-			console.log("track doesn't exist!")
-			return;
+			this.createTrack(id);
 		}
 
 		var localBounds = this.tracksBounds[id];
@@ -93,7 +98,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 		// OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
 
-		console.log(this.globalBounds);
+		//console.log(this.globalBounds);
 
 		if (!bounds.intersectsBounds(this.globalBounds)) 
 			return;
