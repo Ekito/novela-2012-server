@@ -39,6 +39,30 @@ public class LocationControllerTest {
 		});
 
 	}
+	
+	@Test
+	public void testArea() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				FakeRequest fakeRequest = fakeRequest(GET, "/location/area?minLat=43.0&maxLat=44.0&minLon=1.0&maxLon=2.0");
+				Result result = routeAndCall(fakeRequest);
+				assertThat(status(result)).isEqualTo(200);
+			}
+		});
+	}
+	
+	@Test
+	public void testAreaBadRequest() {
+		running(fakeApplication(), new Runnable() {
+			@Override
+			public void run() {
+				FakeRequest fakeRequest = fakeRequest(GET, "/location/area");
+				Result result = routeAndCall(fakeRequest);
+				assertThat(status(result)).isEqualTo(400);
+			}
+		});
+	}
 
 	@Test
 	public void testBadAddLocation() {
