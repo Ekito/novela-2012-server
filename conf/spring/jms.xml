@@ -24,7 +24,7 @@
 
 	<amq:topic id="locationTopic" name="LocationTopic"
 		physicalName="LocationTopic" />
-
+		
 	<!-- A simple topic consumer for debugging purpose -->
 	<!--bean id="echoMessageListener" class="messaging.EchoMessageListener" />
 	<bean id="jmsContainer"

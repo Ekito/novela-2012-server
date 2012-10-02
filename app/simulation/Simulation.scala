@@ -63,6 +63,7 @@ object Simulation {
       simulationActorSystem ! new LocationPost(locations, controllers.routes.LocationController.addLocation.absoluteURL(request))
       true
     }
+    
     val locations = Dataset.findLocations(userId)
     if (locations == null) {
       false

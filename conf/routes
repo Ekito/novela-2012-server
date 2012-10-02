@@ -7,6 +7,7 @@ GET     /                           	controllers.Application.index()
 GET     /map                        	controllers.Application.fullScreenMap()
 POST	/location						controllers.LocationController.addLocation()
 POST	/location/center				controllers.LocationController.centerMap()
+GET		/location/area					controllers.LocationController.getBoundedArea()
 
 GET     /simulation/start/	   			controllers.KaazingTest.startSimulations()
 GET     /simulation/start/:userId	   	controllers.KaazingTest.startSimulation(userId:String)

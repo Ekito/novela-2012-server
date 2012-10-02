@@ -4,6 +4,10 @@ The following libraries have been used in the project :
 
 * "Twitter Bootstrap 2.1.1":https://github.com/twitter/bootstrap/tree/v2.1.1
 
+h2. Eclipse & Scala
+
+Think to add "Scala nature" project to have scala classes available in eclipse project.
+
 h2. Kaazing Gateway
 
 h3. Kaazing Gateway installation

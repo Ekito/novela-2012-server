@@ -12,6 +12,8 @@ import play.Logger;
  */
 public class User {
 
+	protected static Map<String, User> users = new HashMap<String, User>();
+
 	private String id = "";
 
 	public User() {
@@ -30,7 +32,6 @@ public class User {
 		this.id = id;
 	}
 
-	protected static Map<String, User> users = new HashMap<String, User>();
 
 	public static void addUser(final User u) {
 		users.put(u.getId(), u);
