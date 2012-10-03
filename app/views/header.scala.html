@@ -11,7 +11,7 @@
       <a class="brand" href="@routes.Application.index()">@Messages("title")</a>
       <div class="nav-collapse">
         <ul class="nav">
-          <li@if(category.equals("map")){ class="active"}><a href="@routes.Application.fullScreenMap()">@Messages("drawing")</a></li>
+          <li@if(category.equals("map")){ class="active"}><a href="@routes.Application.map()">@Messages("drawing")</a></li>
         </ul>
         <ul class="nav pull-right">
           <li@if(category.equals("about")){ class="active"}><a href="@routes.Application.about()">@Messages("about")</a></li>

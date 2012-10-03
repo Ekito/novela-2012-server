@@ -1,3 +1,5 @@
+@(userId:String)
+
 
 @css = {
 }
@@ -24,13 +26,10 @@
 		    	
 		    	var location = JSON.parse(message.getText());
 
-		    	var me = false;
-		    	if (location.user.id == 1) {
-		    		me = true;
-		    	}
+		    	var me = (location.user.id == @userId);
 		    	
 		      	$.map.addPointToTrack(
-		      			location.user.id,
+		      			location.user.id,	// FIXME should be the track id instead
 		      			{
 		      				"lat":location.lat,
 		      				"lon":location.lon

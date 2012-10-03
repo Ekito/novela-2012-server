@@ -2,17 +2,21 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
-import views.html.map;
 import views.html.about;
+import views.html.map;
 
 public class Application extends Controller {
 
 	public static Result index() {
-		return redirect(routes.Application.fullScreenMap());
+		return redirect(routes.Application.map());
 	}
 
-	public static Result fullScreenMap() {
-		return ok(map.render());
+	public static Result map() {
+		return ok(map.render(null));
+	}
+
+	public static Result focusedMap(String userId) {
+		return ok(map.render(userId));
 	}
 
 	public static Result about() {

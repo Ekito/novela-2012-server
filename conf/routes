@@ -4,7 +4,8 @@
 
 # Home page
 GET     /                           	controllers.Application.index()
-GET     /map                        	controllers.Application.fullScreenMap()
+GET     /map                        	controllers.Application.map()
+GET     /map/:userId                   	controllers.Application.focusedMap(userId:String)
 GET     /about                        	controllers.Application.about()
 POST	/location						controllers.LocationController.addLocation()
 POST	/location/center				controllers.LocationController.centerMap()
