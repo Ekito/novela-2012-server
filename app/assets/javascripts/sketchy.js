@@ -11,6 +11,8 @@ sketchy.prototype =
 
 	points: null, count: null,
 
+	color: null,
+
 	init: function( context )
 	{
 		//console.log("init");
@@ -44,7 +46,7 @@ sketchy.prototype =
 		this.points.push( [ mouseX, mouseY ] );
 
 		this.context.lineWidth = $.constant.BRUSH_SIZE;
-		this.context.strokeStyle = "rgba(" + $.constant.BRUSH_COLOR[0] + ", " + $.constant.BRUSH_COLOR[1] + ", " + $.constant.BRUSH_COLOR[2] + ", " + 0.05 * $.constant.BRUSH_PRESSURE + ")";
+		this.context.strokeStyle = "rgba(" + this.color[0] + ", " + this.color[1] + ", " + this.color[2] + ", " + 0.05 * $.constant.BRUSH_PRESSURE + ")";
 
 		if ($.constant.IS_SAFARI || $.constant.IS_FIREFOX) {
 			this.beginPath();
@@ -95,5 +97,9 @@ sketchy.prototype =
 			this.points.length = 0;
 			this.count = 0;
 		}
+	},
+
+	setColor: function(color) {
+		this.color = color;
 	}
 }

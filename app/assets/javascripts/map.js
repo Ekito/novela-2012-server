@@ -54,7 +54,8 @@ $.map = {
 		];
 		options = {
 			redraw: [Boolean],	// redraw the layer
-			center: [Boolean]	// call showAllTracks
+			center: [Boolean],	// call showAllTracks
+			isMe: [Boolean]		// set primary color for this track and secondary for the others
 		}
 
 	*/
@@ -81,23 +82,23 @@ $.map = {
 	/* add a track */
 	addTrack: function(id,points,options) {
 		this.olTracks.addTrack(id,points);
-		this.runOptions(options);
+		this.runOptions(id,options);
 	},
 
 	/* add a point to a track */
 	addPointToTrack: function(id,point,options) {
 		this.olTracks.addPointToTrack(id,point);
-		this.runOptions(options);
+		this.runOptions(id,options);
 	},
 
 	/* add multiple points to a track */
 	addPointsToTrack: function(id,points,options) {
 		this.olTracks.addPointsToTrack(id,points);
-		this.runOptions(options);
+		this.runOptions(id,options);
 	},
 
 	/* PRIVATE METHODS */
-	runOptions: function(options) {
+	runOptions: function(id,options) {
 		if (!options) return;
 
 		if (options.redraw)
@@ -105,6 +106,9 @@ $.map = {
 
 		if (options.center)
 			this.showAllTracks();
+
+		if (options.isMe)
+			this.olTracks.setIsMe(id);
 	},
 
 	addCenterMapBtn: function() {

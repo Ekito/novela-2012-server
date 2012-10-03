@@ -10,6 +10,8 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	tracksBounds: null,
 
+	myTracks: null,
+
 	globalBounds: null,
 
 	interpolatedPoints: null,
@@ -22,6 +24,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 		this.tracks = {};
 		this.tracksBounds = {};
+		this.myTracks = {};
 		this.globalBounds = new OpenLayers.Bounds();
 		this.interpolatedPoints = [];
 
@@ -94,6 +97,25 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		this.tracksBounds[id] = localBounds;
 	},
 
+	// give primary color to tracks pointed by ids and secondary color to the others
+	// ids: array or integer
+	setIsMe: function(ids) {
+
+		var idList;
+		
+		if (ids instanceof Array) {	// array
+			idList = ids;
+		} else { // integer
+			idList = [ids];
+		}
+
+		for (i in idList) {
+			if (!this.myTracks[idList[i]]) {	// if it's not recorded yet
+				this.myTracks[idList[i]] = true;
+			}
+		}
+	},
+
 	moveTo: function(bounds, zoomChanged) {
 
 		// OpenLayers.Layer.prototype.moveTo.apply(this, arguments);
@@ -140,6 +162,20 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 	    		continue;
 
 	    	track = this.tracks[i];
+
+	    	// if none of them are my tracks, all tracks are in black
+	    	if (this.myTracks.length == 0) {
+	    		this.brush.setColor($.constant.BRUSH_COLOR_PRIMARY);
+	    	}
+	    	// if myTracks contains this track, it's in black
+	    	else if (this.myTracks[i]) {
+	    		this.brush.setColor($.constant.BRUSH_COLOR_PRIMARY);
+	    	}
+	    	// else it's in gray
+	    	else {
+	    		this.brush.setColor($.constant.BRUSH_COLOR_SECONDARY);
+	    	}
+	    	
 
 		    for (var j in track) {
 

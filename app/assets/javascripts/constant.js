@@ -7,5 +7,6 @@ $.constant = {
 	/* Brush */
 	BRUSH_SIZE: 1,
     BRUSH_PRESSURE: 20,
-    BRUSH_COLOR: [0, 0, 0]
+    BRUSH_COLOR_PRIMARY: [0, 0, 0],
+    BRUSH_COLOR_SECONDARY: [200, 200, 200]
 }

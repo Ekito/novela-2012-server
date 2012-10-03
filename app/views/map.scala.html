@@ -17,10 +17,17 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 			$.map.init();
+
+		    var firstPoint = true;
 			
 			function onMessage(message) {
 		    	
 		    	var location = JSON.parse(message.getText());
+
+		    	var me = false;
+		    	if (location.user.id == 1) {
+		    		me = true;
+		    	}
 		    	
 		      	$.map.addPointToTrack(
 		      			location.user.id,
@@ -30,10 +37,14 @@
 		      			},
 		      			{
 		      					redraw: true,	// redraw the layer
-		      					center: false	// call showAllTracks
+		      					center: false,	// call showAllTracks
+		      					isMe: me
 		      			});
 
-		      	$.map.showAllTracks();
+		      	if (firstPoint) {
+		      		$.map.showAllTracks();
+		      		firstPoint = false;
+		      	}
 		    }
 		
 			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage);
