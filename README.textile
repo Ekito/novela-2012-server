@@ -14,6 +14,10 @@ To configure the JMS Broker Url, create the file @"conf/spring.jms-prod.properti
 
 bc.. jms.broker.url=<YOUR_BROKER_URL>
 
+h2. Overall architecture
+
+!docs/draft-archi.png!
+
 h2. Kaazing Gateway
 
 The Kaazing server provides a gateway between JMS (topics and queues) and the websockets. 
