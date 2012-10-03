@@ -11,6 +11,8 @@ import play.Logger;
 
 public class Location implements Serializable {
 
+	protected static Map<String, List<Location>> locations = new HashMap<String, List<Location>>();
+
 	/**
 	 * 
 	 */
@@ -75,7 +77,21 @@ public class Location implements Serializable {
 		this.lon = y;
 	}
 
-	protected static Map<String, List<Location>> locations = new HashMap<String, List<Location>>();
+	/**
+	 * tells if the location is contained inside the bounds
+	 * 
+	 * @param minLat
+	 * @param maxLat
+	 * @param minLon
+	 * @param maxLon
+	 * @return
+	 */
+	protected static boolean isContainedInArea(Location loc, Float minLat, Float maxLat, Float minLon,
+			Float maxLon) {
+		Logger.info(loc.lat+" ? "+minLat+" "+maxLat+" :: "+loc.lon+" "+minLon+" "+maxLon);
+		return (loc.lat >= minLat) && (loc.lat <= maxLat) && (loc.lon >= minLon)
+				&& (loc.lon <= maxLon);
+	}
 
 	public static void saveLocation(final String userId, final Location l) {
 		boolean writeList = false;
@@ -94,4 +110,20 @@ public class Location implements Serializable {
 			locations.put(userId, list);
 		}
 	}
+
+	public static List<Location> getBoundedLocations(Float minLat,
+			Float maxLat, Float minLon, Float maxLon) {
+		List<Location> list = new ArrayList<Location>();
+		for (String userId : locations.keySet()) {
+			List<Location> locationsPerUser = locations.get(userId);
+			Logger.info("getBoundedLocations for "+userId+" :: "+locationsPerUser.size());
+			for (Location l : locationsPerUser) {
+				if (Location.isContainedInArea(l, minLat, maxLat, minLon, maxLon)) {
+					list.add(l);
+				}
+			}
+		}
+		return list;
+	}
+
 }

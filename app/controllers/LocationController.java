@@ -1,14 +1,18 @@
 package controllers;
 
+import java.util.List;
+
 import messaging.LocationProducer;
 import models.Location;
 import models.User;
 import play.Logger;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import bootstrap.Global;
 import controllers.forms.CenterForm;
+import controllers.forms.LocationArea;
 import controllers.forms.LocationForm;
 
 public class LocationController extends Controller {
@@ -28,6 +32,26 @@ public class LocationController extends Controller {
 			Logger.warn("implement send message for center");
 			return ok();
 		}
+	}
+
+	public static Result getBoundedArea() {
+		Form<LocationArea> bindFromRequest = form(LocationArea.class)
+				.bindFromRequest();
+		if (bindFromRequest.hasErrors()) {
+			Logger.error("getBoundedArea errors : " + bindFromRequest.errors());
+			return badRequest();
+		} else {
+			List<Location> points = getBoundedLocations(bindFromRequest);
+			Logger.info("getBoundedArea returned " + points.size());
+			return ok(Json.toJson(points));
+		}
+	}
+
+	private static List<Location> getBoundedLocations(
+			Form<LocationArea> bindFromRequest) {
+		LocationArea locationArea = bindFromRequest.get();
+		return Location.getBoundedLocations(locationArea.minLat,
+				locationArea.maxLat, locationArea.minLon, locationArea.maxLon);
 	}
 
 	public static Result addLocation() {

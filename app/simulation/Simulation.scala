@@ -44,7 +44,8 @@ class Simulation extends Actor {
       locationPost.locations.foreach(location => sendLocation(location, locationPost.url))
 
     }
-    case x => Logger.error("Unknow message " + x)
+    // let it republish on system
+//    case x => Logger.error("Unknow message " + x)
   }
 
 }
@@ -63,6 +64,7 @@ object Simulation {
       simulationActorSystem ! new LocationPost(locations, controllers.routes.LocationController.addLocation.absoluteURL(request))
       true
     }
+    
     val locations = Dataset.findLocations(userId)
     if (locations == null) {
       false

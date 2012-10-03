@@ -2,17 +2,18 @@ package controllers.forms;
 
 import play.data.validation.Constraints.Required;
 
-public class CenterForm {
+public class LocationArea {
+
+	@Required
+	public Float maxLat;
 	
 	@Required
-	public Float lat;
+	public Float minLat;
+
+	@Required
+	public Float minLon;
 	
 	@Required
-	public Float lon;
+	public Float maxLon;
 	
-	@Required
-	public String userId;
-	
-	@Required
-	public Integer zoom;
 }
