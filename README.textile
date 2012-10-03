@@ -6,9 +6,21 @@ The following libraries have been used in the project :
 
 h2. Eclipse & Scala
 
-Think to add "Scala nature" project to have scala classes available in eclipse project.
+Don't forget to add "Scala nature" project to have scala classes available in eclipse project.
+
+h2. First use
+
+To configure the JMS Broker Url, create the file @"conf/spring.jms-prod.properties"@ with the following content:
+
+bc.. jms.broker.url=<YOUR_BROKER_URL>
+
+h2. Overall architecture
+
+!https://raw.github.com/Ekito/novela-2012-server/master/docs/draft-archi.png!
 
 h2. Kaazing Gateway
+
+The Kaazing server provides a gateway between JMS (topics and queues) and the websockets. 
 
 h3. Kaazing Gateway installation
 
@@ -23,19 +35,74 @@ You can connect on the Kaazing instance using SSH.
 
 You have to tweak the default configuration in the @"/etc/kaazing/jms/3.4/conf/gateway-config.xml"@ file (use @sudo@ to edit the file):
 
-# add a cross-site-constraint in order to allow the Javascript client to connect to the Gateway:
+* add a cross-site-constraint in order to allow the Javascript client to connect to the Gateway:
 
 bc.. 
 <cross-site-constraint>
     <allow-origin>http://<CLIENT_DOMAIN_NAME>:<PORT></allow-origin>
 </cross-site-constraint>
 
+p. 
+
+* change the location of the ActiveMQ broker:
+
+bc.. 
+<env.java.naming.provider.url>tcp://<ACTIVEMQ_BROKER_IP>:61616</env.java.naming.provider.url>
+
 p. When you finished to edit the file, restart the Gateway:
 
 @$> sudo restart kaazing-jms-3.4@
 
-h2. Deployment in production
+h2. ekito production server
 
-To configure the JMS Broker Url, create the file @"conf/spring.jms-prod.properties"@ with the following content:
+The ekito server hosts:
 
-bc.. jms.broker.url=<BROKER_URL>
+* the Play server
+* the ActiveMQ broker
+* a HTTP front server
+
+h3. Web server
+
+A lighttpd web server is on front of the Play server, the config @"/etc/lighttpd/conf.d/novela.conf"@ is the following:
+
+bc.. 
+server.modules   += ("mod_proxy")
+
+$HTTP["host"] =~ "^wimha\.com$" {
+  url.redirect = ( "^/(.*)" => "http://www.wimha.com/$1" )
+}
+
+$HTTP["host"] =~ "" {
+    proxy.balance = "round-robin" proxy.server = ( "/" =>
+        ( ( "host" => "127.0.0.1", "port" => 9000 ) ) )
+}
+
+h3. ActiveMQ
+
+To start the broker:
+
+bc.. $> sudo start apache-activemq
+
+p. To stop the broker:
+
+bc.. $> sudo stop apache-activemq
+
+p. The start script is @"/etc/init/apache-activemq.conf"@
+
+For debuging, you can access the ActiveMQ webconsole at the following url : <EKITO_SERVER>:8161/
+
+h3. Play app
+
+The app is located in @"/home/ec2-user/novela"@
+
+To start the app:
+
+bc.. $> sudo /etc/init.d/novela start
+
+p. To stop the app:
+
+bc.. $> sudo /etc/init.d/novela stop
+
+p. The start script is @"/etc/init.d/novela"@
+
+
