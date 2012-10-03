@@ -16,7 +16,7 @@ bc.. jms.broker.url=<YOUR_BROKER_URL>
 
 h2. Overall architecture
 
-!docs/draft-archi.png!
+!https://raw.github.com/Ekito/novela-2012-server/master/docs/draft-archi.png!
 
 h2. Kaazing Gateway
 
