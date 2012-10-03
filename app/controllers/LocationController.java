@@ -1,12 +1,14 @@
 package controllers;
 
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import messaging.LocationProducer;
 import models.Location;
 import models.User;
 import play.Logger;
 import play.data.Form;
+import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -48,7 +50,7 @@ public class LocationController extends Controller {
 	}
 
 	private static List<Location> getBoundedLocations(
-			Form<LocationArea> bindFromRequest) {
+			final Form<LocationArea> bindFromRequest) {
 		LocationArea locationArea = bindFromRequest.get();
 		return Location.getBoundedLocations(locationArea.minLat,
 				locationArea.maxLat, locationArea.minLon, locationArea.maxLon);
@@ -64,11 +66,23 @@ public class LocationController extends Controller {
 			// TODO add details about failures
 			return badRequest();
 		} else {
-			Location location = extractAndSaveLocation(bindFromRequest.get());
+			final LocationForm locationForm = bindFromRequest.get();
+			return async(Akka.future(new Callable<Result>() {
 
-			sendLocationToConnectedClients(location);
+				@Override
+				public Result call() throws Exception {
 
-			return created();
+					// TODO NDE : save the location using a JMS Listener (CQRS
+					// inside !!)
+					Location location = extractAndSaveLocation(locationForm);
+
+					sendLocationToConnectedClients(location);
+
+					return created();
+				}
+
+			}));
+
 		}
 	}
 
