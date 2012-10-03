@@ -1,4 +1,4 @@
-@(title: String)(javascript: Html)(css: Html)(content: Html)
+@(title: String)(category: String)(javascript: Html)(css: Html)(content: Html)
 
 <!DOCTYPE html>
 
@@ -22,7 +22,7 @@
     </head>
     <body>
 
-        @header()
+        @header(category)
 
         <div id="wrapper">
 			<div class="container-fluid">

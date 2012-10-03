@@ -1,3 +1,5 @@
+@(category: String)
+
 <div class="navbar navbar-fixed-top">
   <div class="navbar-inner">
     <div class="container-fluid">
@@ -9,10 +11,10 @@
       <a class="brand" href="@routes.Application.index()">@Messages("title")</a>
       <div class="nav-collapse">
         <ul class="nav">
-          <li class="active"><a href="@routes.Application.fullScreenMap()">@Messages("drawing")</a></li>
+          <li@if(category.equals("map")){ class="active"}><a href="@routes.Application.fullScreenMap()">@Messages("drawing")</a></li>
         </ul>
         <ul class="nav pull-right">
-          <li><a href="#">@Messages("about")</a></li>
+          <li@if(category.equals("about")){ class="active"}><a href="@routes.Application.about()">@Messages("about")</a></li>
         </ul>
       </div><!--/.nav-collapse -->
     </div>
