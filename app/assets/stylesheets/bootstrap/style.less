@@ -20,6 +20,18 @@ html, body {
 
 #wrapper {
 
+	&:not(.full-screen) {
+		
+		width: 55%;
+		margin: @navbarHeight auto;
+		
+		@media (max-width: 480px) { width: 100%; margin: 0; }
+		@media (max-width: 767px) { width: 100%; margin: 0; }
+		@media (min-width: 768px) and (max-width: 979px) { width: 90%; margin: 0 auto; }
+		@media (min-width: 1200px) { width: 60%; margin: @navbarHeight auto; }
+		
+	}
+
 	.container-fluid {
 
 		padding: 0;
@@ -59,11 +71,13 @@ html, body {
 }
 
 footer {
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	height: 67px;
-	width: 100%;
+	&.absolute-positionned {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		height: 67px;
+		width: 100%;
+	}
 	text-align: center;
 }
