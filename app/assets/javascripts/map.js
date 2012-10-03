@@ -6,9 +6,15 @@ $.map = {
 	/* OpenLayers Sketchytrack layer that contains every displayed paths */
 	olTracks: null,
 
+	usersLastTrack: null,
+	nextTrackId: null,
+
 	init: function(data) {
 
+		/* instanciation */
 		this.olMap = new OpenLayers.Map("map");
+		this.usersLastTrack = {};
+		this.nextTrackId = 0;
 
 		/* kinetic effect on the map */
 		this.olMap.addControl(new OpenLayers.Control.Navigation({dragPanOptions: {enableKinetic: true}}));
@@ -67,7 +73,8 @@ $.map = {
 	},
 
 	/* center the map to display every points of a track */
-	showTrack: function(id) {
+	showTrack: function(userId) {
+		var id = this.getTrackIdForUser(userId);
 		var bounds = this.olTracks.tracksBounds[id];
 		if (!bounds) return;
 		this.olMap.zoomToExtent(bounds);
@@ -80,19 +87,22 @@ $.map = {
 	},
 
 	/* add a track */
-	addTrack: function(id,points,options) {
+	addTrack: function(userId,points,options) {
+		var id = this.getTrackIdForUser(userId,true);
 		this.olTracks.addTrack(id,points);
 		this.runOptions(id,options);
 	},
 
 	/* add a point to a track */
-	addPointToTrack: function(id,point,options) {
+	addPointToTrack: function(userId,point,isStart,options) {
+		var id = this.getTrackIdForUser(userId,isStart);
 		this.olTracks.addPointToTrack(id,point);
 		this.runOptions(id,options);
 	},
 
 	/* add multiple points to a track */
-	addPointsToTrack: function(id,points,options) {
+	addPointsToTrack: function(userId,points,isStart,options) {
+		var id = this.getTrackIdForUser(userId,isStart);
 		this.olTracks.addPointsToTrack(id,points);
 		this.runOptions(id,options);
 	},
@@ -118,5 +128,18 @@ $.map = {
 				"<i class='icon-globe icon-white'></i>"+
 			"</a>"
 		);
+	},
+
+	getTrackIdForUser: function(userId,start) {
+
+		if (!this.usersLastTrack[userId] || start) {
+			this.usersLastTrack[userId] = this.nextTrackId;
+			this.nextTrackId++;
+		}
+
+		return this.usersLastTrack[userId];
 	}
 }
+
+
+

@@ -29,11 +29,12 @@
 		    	var me = (location.user.id == @userId);
 		    	
 		      	$.map.addPointToTrack(
-		      			location.user.id,	// FIXME should be the track id instead
+		      			location.user.id,
 		      			{
 		      				"lat":location.lat,
 		      				"lon":location.lon
 		      			},
+		      			location.isStart,
 		      			{
 		      					redraw: true,	// redraw the layer
 		      					center: false,	// call showAllTracks
