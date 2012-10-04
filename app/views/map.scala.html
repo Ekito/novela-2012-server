@@ -26,7 +26,9 @@
 		    	
 		    	var location = JSON.parse(message.getText());
 
+		    	@if(userId != null) {
 		    	var me = (location.user.id == @userId);
+		    	}
 		    	
 		      	$.map.addPointToTrack(
 		      			location.user.id,
@@ -69,14 +71,16 @@
 }
 
 
-@main(Messages("title"))("map")(javascript)(css) {
+@defining(userId != null) { hideHeader =>
+	@main(title=Messages("title"))(category="map")(hideHeader)(javascript)(css) {
 
-	<div  id="map" data-bg="@routes.Assets.at("images/white.png")">
-<!-- 
-		<a href="#" onclick="$.map.showAllTracks();">center map</a>
-		<a href="#" onclick="$.map.addTrack(1,stubs[1],{redraw:true,center:true});">add track</a>
-		<a href="#" onclick="$.map.addPointsToTrack(0,stubs[3],{redraw:true,center:true});">add points to track</a> -->
-		<a id="startSimulation" class="btn">Click here to start a simulation</a>
-	</div>
-	
+		<div  id="map" data-bg="@routes.Assets.at("images/white.png")" @if(hideHeader){ class="no-header"}>
+	<!-- 
+			<a href="#" onclick="$.map.showAllTracks();">center map</a>
+			<a href="#" onclick="$.map.addTrack(1,stubs[1],{redraw:true,center:true});">add track</a>
+			<a href="#" onclick="$.map.addPointsToTrack(0,stubs[3],{redraw:true,center:true});">add points to track</a> -->
+			<a id="startSimulation" class="btn">Click here to start a simulation</a>
+		</div>
+		
+	}
 }

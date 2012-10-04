@@ -1,4 +1,4 @@
-@(title: String)(category: String)(javascript: Html)(css: Html)(content: Html)
+@(title: String)(category: String)(hideHeader: Boolean)(javascript: Html)(css: Html)(content: Html)
 
 <!DOCTYPE html>
 
@@ -22,7 +22,9 @@
     </head>
     <body>
 
-        @header(category)
+        @if(!hideHeader) {
+            @header(category)
+        }
 
         <div id="wrapper"@if(category.equals("map")){ class="full-screen"}>
 			<div class="container-fluid">
@@ -30,7 +32,9 @@
 			</div>
 		</div>
 
-        <footer@if(category.equals("map")){ class="absolute-positionned"}>powered by <a href="http://ekito.fr"><img src="@routes.Assets.at("images/logo_ekito.jpeg")"></a></footer>
+        @if(!hideHeader) {
+            <footer@if(category.equals("map")){ class="absolute-positionned"}>powered by <a href="http://ekito.fr"><img src="@routes.Assets.at("images/logo_ekito.png")"></a></footer>
+        }
 
 		<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
 		<script src="@routes.Assets.at("javascripts/bootstrap/bootstrap-collapse.js")" type="text/javascript"></script>
