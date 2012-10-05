@@ -28,8 +28,11 @@
 
 		    	@if(userId != null) {
 		    	var me = (location.user.id == @userId);
+		    	} else {
+		    	var me = false;
 		    	}
 		    	
+		    	//console.log("draw point");
 		      	$.map.addPointToTrack(
 		      			location.user.id,
 		      			{
@@ -42,6 +45,7 @@
 		      					center: false,	// call showAllTracks
 		      					isMe: me
 		      			});
+		    	//console.log("draw point end");
 
 		      	if (firstPoint) {
 		      		$.map.showAllTracks();

@@ -164,7 +164,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 	    	track = this.tracks[i];
 
 	    	// if none of them are my tracks, all tracks are in black
-	    	if (this.myTracks.length == 0) {
+	    	if (this.isEmpty(this.myTracks)) {
 	    		this.brush.setColor($.constant.BRUSH_COLOR_PRIMARY);
 	    	}
 	    	// if myTracks contains this track, it's in black
@@ -208,6 +208,15 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 	    // that position using one point's offset as determined earlier.
 	    this.canvas.style.left = (-offsetX) + 'px';
 	    this.canvas.style.top = (-offsetY) + 'px';
+	},
+
+	isEmpty: function(obj) {
+	    for(var prop in obj) {
+	        if(obj.hasOwnProperty(prop))
+	            return false;
+	    }
+
+	    return true;
 	},
 
 	CLASS_NAME: 'Sketchytrack.Layer'
