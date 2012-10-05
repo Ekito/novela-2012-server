@@ -27,7 +27,7 @@
 		    	var location = JSON.parse(message.getText());
 
 		    	@if(userId != null) {
-		    	var me = (location.user.id == @userId);
+		    	var me = (location.user.id == "@userId");
 		    	} else {
 		    	var me = false;
 		    	}
