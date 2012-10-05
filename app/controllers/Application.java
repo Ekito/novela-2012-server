@@ -20,6 +20,10 @@ public class Application extends Controller {
 	}
 
 	public static Result about() {
-		return ok(about.render());
+		return ok(about.render(false));
+	}
+
+	public static Result mobileAbout() {
+		return ok(about.render(true));
 	}
 }
