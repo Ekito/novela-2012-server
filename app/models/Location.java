@@ -13,11 +13,9 @@ import play.db.ebean.Model;
 @Entity
 public class Location extends Model {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1973445298197201545L;
 
+	@SuppressWarnings("unused")
 	@Id
 	private Long id;
 
@@ -38,6 +36,7 @@ public class Location extends Model {
 
 	public Location() {
 
+		this.serverDate = new Date();
 	}
 
 	public Location(final User aUser, final Float aLat, final Float aLon,
@@ -92,12 +91,12 @@ public class Location extends Model {
 	private static Finder<Long, Location> finder = new Finder<Long, Location>(
 			Long.class, Location.class);
 
-	public static Location findById(final Long aId) {
-		return finder.byId(aId);
-	}
-
 	public static void saveLocation(final Location l) {
 		l.save();
+	}
+
+	public static int locationsCount() {
+		return finder.findRowCount();
 	}
 
 	public static List<Location> getBoundedLocations(final Float minLat,
