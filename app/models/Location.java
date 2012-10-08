@@ -20,7 +20,7 @@ public class Location extends Model {
 	private Long id;
 
 	@Column
-	private Boolean isStart = false;
+	private boolean isStart = false;
 
 	@Column(nullable = false)
 	private Date serverDate = null;
@@ -48,11 +48,11 @@ public class Location extends Model {
 		this.serverDate = new Date();
 	}
 
-	public Boolean getIsStart() {
+	public boolean isStart() {
 		return isStart;
 	}
 
-	public void setIsStart(final Boolean isStart) {
+	public void setStart(final boolean isStart) {
 		this.isStart = isStart;
 	}
 
@@ -102,8 +102,13 @@ public class Location extends Model {
 	public static List<Location> getBoundedLocations(final Float minLat,
 			final Float maxLat, final Float minLon, final Float maxLon) {
 
-		return finder.where().between("lat", minLat, maxLat)
-				.between("lon", minLon, maxLon).findList();
+		List<Location> locations = finder.where()
+				.between("lat", minLat, maxLat).between("lon", minLon, maxLon)
+				.orderBy("serverDate").findList();
+
+		// TODO NDE: add the start points of each track
+
+		return locations;
 
 	}
 }

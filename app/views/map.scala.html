@@ -39,7 +39,7 @@
 		      				"lat":location.lat,
 		      				"lon":location.lon
 		      			},
-		      			location.isStart,
+		      			location.start,
 		      			{
 		      					redraw: true,	// redraw the layer
 		      					center: false,	// call showAllTracks
@@ -54,6 +54,37 @@
 		    }
 		
 			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage);
+			
+			// load the initial points
+			$.ajax(
+				{
+                    url: "/location/area", // TODO NDE: use a jsroute
+                    method: 'get',
+                    data: {
+                    	minLat: 43.602,   // TODO NDE: find a good center
+                    	maxLat: 43.700,
+                    	minLon: 0.0,
+                    	maxLon: 1.5
+                    },
+                    success : function(data) {
+                    	$.each(data, function(index, location){
+                    		$.map.addPointToTrack(
+            		      			location.user.id,
+            		      			{
+            		      				"lat":location.lat,
+            		      				"lon":location.lon
+            		      			},
+            		      			location.start,
+            		      			{
+            		      					redraw: false,	// redraw the layer
+            		      					center: false,	// call showAllTracks
+            		      					isMe: false
+            		      			});
+                    	});
+                    	$.map.showAllTracks();
+                    }
+                    
+                });
 			
 		}
 	);
