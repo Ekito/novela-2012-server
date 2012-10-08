@@ -29,7 +29,6 @@ public class LocationController extends Controller {
 		} else {
 			CenterForm centerForm = bindFromRequest.get();
 			Logger.info("ask centering for id : " + centerForm.userId);
-			User u = User.findOrCreateUser(centerForm.userId);
 			// TODO send center position message
 			Logger.warn("implement send message for center");
 			return ok();
@@ -95,11 +94,9 @@ public class LocationController extends Controller {
 
 	private static Location extractAndSaveLocation(
 			final LocationForm locationForm) {
-		Location l = new Location(locationForm.lat, locationForm.lon,
-				locationForm.isStart);
-		User u = User.findOrCreateUser(locationForm.userId);
-		l.setUser(u);
-		Location.saveLocation(locationForm.userId, l);
+		Location l = new Location(new User(locationForm.userId),
+				locationForm.lat, locationForm.lon, locationForm.isStart);
+		Location.saveLocation(l);
 		return l;
 	}
 

@@ -7,6 +7,7 @@ import static play.test.Helpers.POST;
 import static play.test.Helpers.callAction;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
+import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.routeAndCall;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
@@ -24,7 +25,7 @@ public class LocationControllerTest {
 
 	@Test
 	public void testAddLocation() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			@Override
 			public void run() {
 				FakeRequest fakeRequest = fakeRequest(POST, "/location");

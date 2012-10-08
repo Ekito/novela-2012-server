@@ -3,21 +3,24 @@ package models;
 import java.util.HashMap;
 import java.util.Map;
 
-import play.Logger;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  * 
  * @author Ekito
  * 
  */
+@Embeddable
 public class User {
 
 	protected static Map<String, User> users = new HashMap<String, User>();
 
-	private String id = "";
+	@Column(name = "user_id", length = 100, nullable = false)
+	private String id;
 
 	public User() {
-
+		this.id = "";
 	}
 
 	public User(final String id) {
@@ -32,23 +35,4 @@ public class User {
 		this.id = id;
 	}
 
-
-	public static void addUser(final User u) {
-		users.put(u.getId(), u);
-	}
-
-	public static User findUser(final String id) {
-		User user = users.get(id);
-		return user;
-	}
-
-	public static User findOrCreateUser(final String id) {
-		User u = User.findUser(id);
-		if (u == null) {
-			Logger.warn("user id not found : " + id + " creating it ... ");
-			u = new User(id);
-			User.addUser(u);
-		}
-		return u;
-	}
 }
