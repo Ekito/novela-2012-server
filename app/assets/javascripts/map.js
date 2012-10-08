@@ -9,17 +9,20 @@ $.map = {
 	usersLastTrack: null,
 	nextTrackId: null,
 
-	init: function(data) {
+	init: function(hideControls,data) {
 
 		/* instanciation */
-		this.olMap = new OpenLayers.Map("map");
+		if (hideControls) {
+			this.olMap = new OpenLayers.Map("map",{controls:[]});
+		} else {
+			this.olMap = new OpenLayers.Map("map");
+			/* kinetic effect on the map */
+			this.olMap.addControl(new OpenLayers.Control.Navigation({dragPanOptions: {enableKinetic: true}}));
+
+			this.addCenterMapBtn();
+		}
 		this.usersLastTrack = {};
 		this.nextTrackId = 0;
-
-		/* kinetic effect on the map */
-		this.olMap.addControl(new OpenLayers.Control.Navigation({dragPanOptions: {enableKinetic: true}}));
-
-		this.addCenterMapBtn();
 
 		/* White layer */
 		var wms = new OpenLayers.Layer.Image(

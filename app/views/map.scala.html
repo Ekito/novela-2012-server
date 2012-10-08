@@ -1,4 +1,4 @@
-@(userId:String)
+@(userId:String)(hideControls:Boolean)
 
 
 @css = {
@@ -18,7 +18,7 @@
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-			$.map.init();
+			$.map.init(@hideControls);
 
 		    var firstPoint = true;
 			
@@ -55,20 +55,6 @@
 		
 			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage);
 			
-			$("#startSimulation").click(function() {
-				
-				// TODO NDE : use a JS route
-				$.ajax(
-				{
-                    url: "/simulation/start/",
-                    method: 'get',
-                    success : function(data) {
-                    	console.log("Simulation started")
-                    }
-                    
-                })
-			})
-			
 		}
 	);
 	</script>
@@ -83,7 +69,6 @@
 			<a href="#" onclick="$.map.showAllTracks();">center map</a>
 			<a href="#" onclick="$.map.addTrack(1,stubs[1],{redraw:true,center:true});">add track</a>
 			<a href="#" onclick="$.map.addPointsToTrack(0,stubs[3],{redraw:true,center:true});">add points to track</a> -->
-			<a id="startSimulation" class="btn">Click here to start a simulation</a>
 		</div>
 		
 	}
