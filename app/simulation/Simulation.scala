@@ -29,7 +29,7 @@ class Simulation extends Actor {
       "userId" -> Seq(location.getUser.getId),
       "lat" -> Seq("" + location.getLat),
       "lon" -> Seq("" + location.getLon),
-      "isStart" -> Seq("" + location.getIsStart))
+      "isStart" -> Seq("" + location.isStart))
     WS.url(url).post(body)
 
   }

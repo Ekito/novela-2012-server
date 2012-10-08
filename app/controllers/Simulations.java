@@ -8,7 +8,7 @@ import play.mvc.Http.Request;
 import play.mvc.Result;
 import simulation.Simulation;
 
-public class KaazingTest extends Controller {
+public class Simulations extends Controller {
 
 	public static Result startSimulations() {
 

@@ -1,4 +1,4 @@
-@(userId:String)
+@(userId:String)(hideControls:Boolean)
 
 
 @css = {
@@ -18,7 +18,7 @@
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-			$.map.init();
+			$.map.init(@hideControls);
 
 		    var firstPoint = true;
 			
@@ -39,7 +39,7 @@
 		      				"lat":location.lat,
 		      				"lon":location.lon
 		      			},
-		      			location.isStart,
+		      			location.start,
 		      			{
 		      					redraw: true,	// redraw the layer
 		      					center: false,	// call showAllTracks
@@ -55,19 +55,36 @@
 		
 			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage);
 			
-			$("#startSimulation").click(function() {
-				
-				// TODO NDE : use a JS route
-				$.ajax(
+			// load the initial points
+			$.ajax(
 				{
-                    url: "/simulation/start/",
+                    url: "/location/area", // TODO NDE: use a jsroute
                     method: 'get',
+                    data: {
+                    	minLat: 43.602,   // TODO NDE: find a good center
+                    	maxLat: 43.700,
+                    	minLon: 0.0,
+                    	maxLon: 1.5
+                    },
                     success : function(data) {
-                    	console.log("Simulation started")
+                    	$.each(data, function(index, location){
+                    		$.map.addPointToTrack(
+            		      			location.user.id,
+            		      			{
+            		      				"lat":location.lat,
+            		      				"lon":location.lon
+            		      			},
+            		      			location.start,
+            		      			{
+            		      					redraw: false,	// redraw the layer
+            		      					center: false,	// call showAllTracks
+            		      					isMe: false
+            		      			});
+                    	});
+                    	$.map.showAllTracks();
                     }
                     
-                })
-			})
+                });
 			
 		}
 	);
@@ -83,7 +100,6 @@
 			<a href="#" onclick="$.map.showAllTracks();">center map</a>
 			<a href="#" onclick="$.map.addTrack(1,stubs[1],{redraw:true,center:true});">add track</a>
 			<a href="#" onclick="$.map.addPointsToTrack(0,stubs[3],{redraw:true,center:true});">add points to track</a> -->
-			<a id="startSimulation" class="btn">Click here to start a simulation</a>
 		</div>
 		
 	}

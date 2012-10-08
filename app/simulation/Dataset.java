@@ -40,16 +40,17 @@ public class Dataset {
 				return null;
 			}
 			Iterator<JsonNode> locations = dataForUser.getElements();
+
+			// the first element is the starting one
+			boolean start = true;
 			while (locations.hasNext()) {
 				Location location = Json.fromJson(locations.next(),
 						Location.class);
 				location.setUser(user);
-				location.setIsStart(false);
+
+				location.setStart(start);
 				result.add(location);
-			}
-			// the first element is the starting one
-			if (!result.isEmpty()) {
-				result.get(0).setIsStart(true);
+				start = false;
 			}
 
 		} catch (IOException e) {

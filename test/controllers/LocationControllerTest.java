@@ -7,6 +7,7 @@ import static play.test.Helpers.POST;
 import static play.test.Helpers.callAction;
 import static play.test.Helpers.fakeApplication;
 import static play.test.Helpers.fakeRequest;
+import static play.test.Helpers.inMemoryDatabase;
 import static play.test.Helpers.routeAndCall;
 import static play.test.Helpers.running;
 import static play.test.Helpers.status;
@@ -16,6 +17,7 @@ import java.util.Map;
 
 import org.junit.Test;
 
+import play.api.mvc.AsyncResult;
 import play.mvc.Result;
 import play.test.FakeRequest;
 
@@ -23,7 +25,7 @@ public class LocationControllerTest {
 
 	@Test
 	public void testAddLocation() {
-		running(fakeApplication(), new Runnable() {
+		running(fakeApplication(inMemoryDatabase()), new Runnable() {
 			@Override
 			public void run() {
 				FakeRequest fakeRequest = fakeRequest(POST, "/location");
@@ -32,26 +34,42 @@ public class LocationControllerTest {
 				args.put("lat", "12.0");
 				args.put("lon", "12.0");
 				args.put("isStart", "" + false);
-				Result result = routeAndCall(fakeRequest
-						.withFormUrlEncodedBody(args));
-				assertThat(status(result)).isEqualTo(CREATED);
+
+				// some plumbing to wait synchronously for the result
+				Result result = routeAndCall((fakeRequest
+						.withFormUrlEncodedBody(args)));
+
+				final AsyncResult asyncResult = (AsyncResult) result
+						.getWrappedResult();
+
+				Result syncResult = new Result() {
+
+					@Override
+					public play.api.mvc.Result getWrappedResult() {
+						return asyncResult.result().await().get();
+					}
+
+				};
+
+				assertThat(status(syncResult)).isEqualTo(CREATED);
 			}
 		});
 
 	}
-	
+
 	@Test
 	public void testArea() {
 		running(fakeApplication(), new Runnable() {
 			@Override
 			public void run() {
-				FakeRequest fakeRequest = fakeRequest(GET, "/location/area?minLat=43.0&maxLat=44.0&minLon=1.0&maxLon=2.0");
+				FakeRequest fakeRequest = fakeRequest(GET,
+						"/location/area?minLat=43.0&maxLat=44.0&minLon=1.0&maxLon=2.0");
 				Result result = routeAndCall(fakeRequest);
 				assertThat(status(result)).isEqualTo(200);
 			}
 		});
 	}
-	
+
 	@Test
 	public void testAreaBadRequest() {
 		running(fakeApplication(), new Runnable() {

@@ -1,9 +1,15 @@
 package bootstrap;
 
+import java.util.List;
+
+import models.Location;
+
 import org.springframework.context.support.GenericXmlApplicationContext;
 
 import play.Application;
 import play.GlobalSettings;
+import play.Logger;
+import simulation.Dataset;
 
 public class Global extends GlobalSettings {
 
@@ -14,7 +20,24 @@ public class Global extends GlobalSettings {
 
 		loadSpringContext();
 
+		loadDataset();
+
 		super.onStart(app);
+	}
+
+	protected void loadDataset() {
+		if (Location.locationsCount() == 0) {
+			Logger.info("Loading some datasets...");
+			for (int i = 0; i <= 8; i++) {
+				List<Location> locations = Dataset.findLocations(String
+						.valueOf(i));
+				if (locations != null) {
+					for (Location location : locations) {
+						location.save();
+					}
+				}
+			}
+		}
 	}
 
 	protected void loadSpringContext() {

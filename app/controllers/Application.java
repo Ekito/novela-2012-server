@@ -12,11 +12,16 @@ public class Application extends Controller {
 	}
 
 	public static Result map() {
-		return ok(map.render(null));
+		return ok(map.render(null, false));
 	}
 
-	public static Result focusedMap(String userId) {
-		return ok(map.render(userId));
+	public static Result focusedMap(final String userId,
+			final Boolean hideControls) {
+		return ok(map.render(userId, hideControls));
+	}
+
+	public static Result fullscreenMap() {
+		return ok(map.render("a fake id", true));
 	}
 
 	public static Result about() {
