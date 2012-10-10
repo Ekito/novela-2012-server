@@ -25,15 +25,19 @@ public class Application extends Controller {
 		return ok(views.html.map.render("a fake id", true));
 	}
 
-	public static Result about(String language) {
-		if (language.equals("en")) {
+	public static Result about(String lang) {
+		if (lang.equals("en")) {
 			return ok(about_en.render(false));
 		} else {
 			return ok(about.render(false));			
 		}
 	}
 
-	public static Result mobileAbout() {
-		return ok(views.html.about.render(true));
+	public static Result mobileAbout(String lang) {
+		if (lang.equals("en")) {
+			return ok(about_en.render(true));
+		} else {
+			return ok(about.render(true));			
+		}
 	}
 }
