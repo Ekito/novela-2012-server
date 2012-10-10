@@ -24,7 +24,7 @@ public class Application extends Controller {
 		return ok(map.render("a fake id", true));
 	}
 
-	public static Result about() {
+	public static Result about(String language) {
 		return ok(about.render(false));
 	}
 
