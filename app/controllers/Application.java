@@ -3,6 +3,7 @@ package controllers;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.about;
+import views.html.about_en;
 import views.html.map;
 
 public class Application extends Controller {
@@ -25,7 +26,11 @@ public class Application extends Controller {
 	}
 
 	public static Result about(String language) {
-		return ok(about.render(false));
+		if (language.equals("en")) {
+			return ok(about_en.render(false));
+		} else {
+			return ok(about.render(false));			
+		}
 	}
 
 	public static Result mobileAbout() {
