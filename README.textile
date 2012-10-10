@@ -14,6 +14,41 @@ To configure the JMS Broker Url, create the file @"conf/spring.jms-prod.properti
 
 bc.. jms.broker.url=<YOUR_BROKER_URL>
 
+h2. Database
+
+A database is used to store the locations of the users, and the admin account informations.
+
+h3. Development
+
+The database used is "H2":http://h2database.com. The data are stored in files located in the user home directory: @~/database/novela2012.*@
+
+The configuration is located in the @conf/application.conf@ file:
+
+bc.. db.default.driver=org.h2.Driver
+db.default.url="jdbc:h2:file:~/database/novela2012"
+db.default.user=sa
+db.default.password=""
+
+h3. Tests
+
+The database used is "H2":http://h2database.com. The data are stored in memory, so just during the tests.
+
+For that, we use the "inMemoryDatabase()":http://www.playframework.org/documentation/2.0.4/JavaTest helper of Play. For instance, in a test:
+
+bc.. 
+running(fakeApplication(inMemoryDatabase()), new Runnable() {
+	@Override
+	public void run() {
+		...
+	}
+});
+
+h3. Production
+
+The database used is Postgres.
+
+The parameters are provided by the @start@ script located in the ekito server.
+
 h2. Overall architecture
 
 !https://raw.github.com/Ekito/novela-2012-server/master/docs/draft-archi.png!
