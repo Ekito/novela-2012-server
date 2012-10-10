@@ -2,6 +2,9 @@ package controllers;
 
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.about;
+import views.html.about_en;
+import views.html.map;
 
 public class Application extends Controller {
 
@@ -22,8 +25,12 @@ public class Application extends Controller {
 		return ok(views.html.map.render("a fake id", true));
 	}
 
-	public static Result about() {
-		return ok(views.html.about.render(false));
+	public static Result about(String language) {
+		if (language.equals("en")) {
+			return ok(about_en.render(false));
+		} else {
+			return ok(about.render(false));			
+		}
 	}
 
 	public static Result mobileAbout() {
