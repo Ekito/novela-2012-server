@@ -13,6 +13,11 @@ POST	/location						controllers.LocationController.addLocation()
 POST	/location/center				controllers.LocationController.centerMap()
 GET		/location/area					controllers.LocationController.getBoundedArea()
 
+GET		/admin/login/					controllers.AdminController.login
+POST    /admin/login/                   controllers.AdminController.authenticate
+GET     /admin/logout/                  controllers.AdminController.logout
+GET     /admin/dashboard/               controllers.AdminController.dashboard
+
 GET     /simulation/start/	   			controllers.Simulations.startSimulations()
 GET     /simulation/start/:userId	   	controllers.Simulations.startSimulation(userId:String)
 

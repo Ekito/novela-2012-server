@@ -106,7 +106,7 @@ public class Location extends Model {
 				.between("lat", minLat, maxLat).between("lon", minLon, maxLon)
 				.orderBy("serverDate").findList();
 
-		// TODO NDE: add the start points of each track
+		// TODO NDE: add the start points of each track if not already present
 
 		return locations;
 

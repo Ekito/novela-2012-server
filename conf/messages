@@ -1,3 +1,9 @@
 title = 510 067 420 km² de dessin
 drawing = Dessin
 about = A propos
+
+login.title = Login
+login.btn = Login
+login.email = Email
+login.password = Password
+login.logout = Logout

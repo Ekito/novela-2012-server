@@ -1,0 +1,36 @@
+@(form: Form[controllers.forms.LoginForm])
+
+@css = {
+}
+
+@javascript = {
+}
+
+@main(Messages("login.title"))("login")(false)(javascript)(css) {
+    
+	    @helper.form(routes.AdminController.authenticate,'class -> "centered") {
+        
+        <div class="well">
+            <h2>@Messages("login.title")</h2>
+            
+            @if(form.hasGlobalErrors) { 
+                <p class="alert alert-error">
+                    @form.globalError.message
+                </p>
+            }
+            
+            @if(flash.contains("success")) {
+                <p class="alert alert-success">
+                    @flash.get("success")
+                </p>
+            }
+            
+            <p><input type="email" name="email" class="row-fluid" placeholder="@Messages("login.email")" value="@form("email").value"></p>
+            <p><input type="password" name="password" class="row-fluid" placeholder="@Messages("login.password")"></p>
+            <p class="center"><button type="submit" class="btn btn-primary">@Messages("login.btn")</button></p>
+        </div>
+    }
+}
+    
+
+

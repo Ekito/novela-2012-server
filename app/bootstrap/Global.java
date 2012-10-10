@@ -2,6 +2,7 @@ package bootstrap;
 
 import java.util.List;
 
+import models.Admin;
 import models.Location;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
@@ -27,6 +28,7 @@ public class Global extends GlobalSettings {
 
 	protected void loadDataset() {
 		if (Location.locationsCount() == 0) {
+
 			Logger.info("Loading some datasets...");
 			for (int i = 0; i <= 8; i++) {
 				List<Location> locations = Dataset.findLocations(String
@@ -37,6 +39,9 @@ public class Global extends GlobalSettings {
 					}
 				}
 			}
+
+			// create a new Admin
+			new Admin("ndeverge@ekito.fr", "secret").save();
 		}
 	}
 

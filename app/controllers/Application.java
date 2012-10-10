@@ -13,16 +13,16 @@ public class Application extends Controller {
 	}
 
 	public static Result map() {
-		return ok(map.render(null, false));
+		return ok(views.html.map.render(null, false));
 	}
 
 	public static Result focusedMap(final String userId,
 			final Boolean hideControls) {
-		return ok(map.render(userId, hideControls));
+		return ok(views.html.map.render(userId, hideControls));
 	}
 
 	public static Result fullscreenMap() {
-		return ok(map.render("a fake id", true));
+		return ok(views.html.map.render("a fake id", true));
 	}
 
 	public static Result about(String language) {
@@ -34,6 +34,6 @@ public class Application extends Controller {
 	}
 
 	public static Result mobileAbout() {
-		return ok(about.render(true));
+		return ok(views.html.about.render(true));
 	}
 }
