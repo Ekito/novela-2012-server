@@ -9,6 +9,8 @@ $.map = {
 	usersLastTrack: null,
 	nextTrackId: null,
 
+	referenceBounds: new OpenLayers.Bounds(0.0,42.0,1.6,44.0),
+
 	init: function(hideControls,data) {
 
 		/* instanciation */
@@ -164,6 +166,11 @@ $.map = {
 		this.usersLastTrack = {};
 	},
 
+	/* center map to reference bounds (ie Toulouse) */
+	setBoundsToReference: function() {
+		this.setBounds(this.referenceBounds);
+	},
+
 	/* PRIVATE METHODS */
 	runOptions: function(id,options) {
 		if (!options) return;
@@ -181,7 +188,7 @@ $.map = {
 	addCenterMapBtn: function() {
 		$(".olButton.olControlZoomOut")
 		.after(
-			"<a onclick='$.map.showAllTracks();' class='olControlCenter olButton'>"+
+			"<a onclick='$.map.setBoundsToReference();' class='olControlCenter olButton'>"+
 				"<i class='icon-globe icon-white'></i>"+
 			"</a>"
 		);
