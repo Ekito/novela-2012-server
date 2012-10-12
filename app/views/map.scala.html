@@ -56,11 +56,19 @@
 			function onQueueMessage(message) {
 		    	
 		    	var location = JSON.parse(message.getText());
-
+				
+		    	$.map.setCenter(location)
+		    	
+		    	console.log("center on : " + location)
 		    }
 		
 			var userId = "@userId"
+			
 			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage, onQueueMessage ,userId);
+			
+// 			if (userId != null){
+// 				setupKaazingQueue("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onQueueMessage ,userId);
+// 			}
 			
 			// load the initial points
 			$.map.setBoundsToReference();
