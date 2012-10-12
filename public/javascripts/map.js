@@ -9,6 +9,8 @@ $.map = {
 	usersLastTrack: null,
 	nextTrackId: null,
 
+	referenceBounds: new OpenLayers.Bounds(0.0,42.0,1.6,44.0),
+
 	init: function(hideControls,data) {
 
 		/* instanciation */
@@ -23,6 +25,15 @@ $.map = {
 		}
 		this.usersLastTrack = {};
 		this.nextTrackId = 0;
+
+		/* listener when the map moves */
+		this.olMap.events.register("moveend", map, function() {
+
+			$.map.removeAllTracks();
+
+            var bounds = $.map.olMap.getExtent();
+            $.map.loadPoints(bounds);
+        });
 
 		/* White layer */
 		var wms = new OpenLayers.Layer.Image(
@@ -47,7 +58,7 @@ $.map = {
 		}
 		this.olMap.addLayer(this.olTracks);
 
-		this.showAllTracks();
+		//this.showAllTracks();
 
 	},
 
@@ -69,9 +80,47 @@ $.map = {
 
 	*/
 
+	loadPoints: function(bounds) {
+		$.ajax(
+			{
+                url: "/location/area", // TODO NDE: use a jsroute
+                method: 'get',
+                data: {
+                	minLat: bounds.bottom,   // TODO NDE: find a good center
+                	maxLat: bounds.top,
+                	minLon: bounds.left,
+                	maxLon: bounds.right
+                },
+                success : function(data) {
+                	$.each(data, function(index, location){
+                		$.map.addPointToTrack(
+        		      			location.user.id,
+        		      			{
+        		      				"lat":location.lat,
+        		      				"lon":location.lon
+        		      			},
+        		      			location.start,
+        		      			{
+        		      					redraw: false,	// redraw the layer
+        		      					center: false,	// call showAllTracks
+        		      					isMe: false
+        		      			});
+                	});
+                	$.map.olTracks.redraw();
+                }
+                
+            }
+       	);
+	},
+
 	/* center the map to display every points of Sketchytrack layer */
 	showAllTracks: function() {
 		var bounds = this.olTracks.globalBounds;
+		this.olMap.zoomToExtent(bounds);
+	},
+
+	/* center the map to a position */
+	setBounds: function(bounds) {
 		this.olMap.zoomToExtent(bounds);
 	},
 
@@ -110,6 +159,18 @@ $.map = {
 		this.runOptions(id,options);
 	},
 
+	/* remove all tracks */
+	removeAllTracks: function(options) {
+		this.olTracks.removeAllTracks();
+		this.runOptions(null,options);
+		this.usersLastTrack = {};
+	},
+
+	/* center map to reference bounds (ie Toulouse) */
+	setBoundsToReference: function() {
+		this.setBounds(this.referenceBounds);
+	},
+
 	/* PRIVATE METHODS */
 	runOptions: function(id,options) {
 		if (!options) return;
@@ -127,7 +188,7 @@ $.map = {
 	addCenterMapBtn: function() {
 		$(".olButton.olControlZoomOut")
 		.after(
-			"<a onclick='$.map.showAllTracks();' class='olControlCenter olButton'>"+
+			"<a onclick='$.map.setBoundsToReference();' class='olControlCenter olButton'>"+
 				"<i class='icon-globe icon-white'></i>"+
 			"</a>"
 		);

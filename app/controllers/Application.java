@@ -16,9 +16,8 @@ public class Application extends Controller {
 		return ok(views.html.map.render(null, false));
 	}
 
-	public static Result focusedMap(final String userId,
-			final Boolean hideControls) {
-		return ok(views.html.map.render(userId, hideControls));
+	public static Result focusedMap(final String userId) {
+		return ok(views.html.map.render(userId, false));
 	}
 
 	public static Result fullscreenMap() {

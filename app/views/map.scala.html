@@ -63,35 +63,7 @@
 			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage, onQueueMessage ,userId);
 			
 			// load the initial points
-			$.ajax(
-				{
-                    url: "/location/area", // TODO NDE: use a jsroute
-                    method: 'get',
-                    data: {
-                    	minLat: 42.0,   // TODO NDE: find a good center
-                    	maxLat: 44.0,
-                    	minLon: 0.0,
-                    	maxLon: 1.6
-                    },
-                    success : function(data) {
-                    	$.each(data, function(index, location){
-                    		$.map.addPointToTrack(
-            		      			location.user.id,
-            		      			{
-            		      				"lat":location.lat,
-            		      				"lon":location.lon
-            		      			},
-            		      			location.start,
-            		      			{
-            		      					redraw: false,	// redraw the layer
-            		      					center: false,	// call showAllTracks
-            		      					isMe: false
-            		      			});
-                    	});
-                    	$.map.showAllTracks();
-                    }
-                    
-                });
+			$.map.setBoundsToReference();
 			
 		}
 	);

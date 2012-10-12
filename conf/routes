@@ -5,7 +5,7 @@
 # Home page
 GET     /                           	controllers.Application.index()
 GET     /map                        	controllers.Application.map()
-GET     /map/:userId                   	controllers.Application.focusedMap(userId:String, hideControls : Boolean ?= false)
+GET     /map/:userId                   	controllers.Application.focusedMap(userId:String)
 GET     /fullscreen                    	controllers.Application.fullscreenMap()
 GET     /about 					      	controllers.Application.about(lang : String ?= "fr")
 GET     /about/mobile                  	controllers.Application.mobileAbout(lang : String ?= "fr")
