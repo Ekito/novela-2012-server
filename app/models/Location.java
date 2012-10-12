@@ -1,7 +1,10 @@
 package models;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -9,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.Model;
+import vo.Track;
 
 @Entity
 public class Location extends Model {
@@ -102,13 +106,67 @@ public class Location extends Model {
 	public static List<Location> getBoundedLocations(final Float minLat,
 			final Float maxLat, final Float minLon, final Float maxLon) {
 
+		List<Location> result = new ArrayList<Location>();
+		
 		List<Location> locations = finder.where()
-				.between("lat", minLat, maxLat).between("lon", minLon, maxLon)
 				.orderBy("serverDate").findList();
 
-		// TODO NDE: add the start points of each track if not already present
+		// results ordered by tracks
+		List<Track> resultTracks = new ArrayList<Track>();
+		
+		// a map containing tracks mapped by user id, ie last track seen for a user
+		Map<String,Track> tracks = new HashMap<String,Track>();
+		
+		// current track user id		
+		String userId;
+		
+		// current track
+		Track track;
+		for (Location loc : locations) {
+			
+			userId = loc.getUser().getId();
+			
+			// new track
+			if (loc.isStart || !tracks.containsKey(userId)) {
+				
+				// !tracks.containsKey(userId) -->> case if the data is not well formatted (ie not starting with a isStart) 
+				
+				track = new Track();
+				
+				// if not the first track for user, store last one if it's in the bounds
+				if (tracks.containsKey(userId) && tracks.get(userId).isInBounds()) {
+					resultTracks.add(tracks.remove(userId));
+				}					
+					
+				tracks.put(userId,track);
+			} else {
+				track = tracks.get(userId);
+			}
+			
+			// update the track
+			track.addLocation(loc);
+			
+			// set is in bounds
+			if (!track.isInBounds() &&
+					loc.lat >= minLat && loc.lat <= maxLat &&
+					loc.lon >= minLon && loc.lon <= maxLon) {
+				track.setInBounds(true);
+			}
+		}
+		
+		// fill resultTracks with remaining tracks
+		for (Track tck : tracks.values()) {
+			if (tck.isInBounds()) {
+				resultTracks.add(tck);
+			}
+		}
+		
+		// track to location translation
+		for (Track tck : resultTracks) {
+			result.addAll(tck.getLocations());
+		}
 
-		return locations;
+		return result;
 
 	}
 }

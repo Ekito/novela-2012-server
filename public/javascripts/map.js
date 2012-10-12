@@ -25,7 +25,7 @@ $.map = {
 		this.nextTrackId = 0;
 
 		/* listener when the map moves */
-		this.olMap.events.register("move", map, function() {
+		this.olMap.events.register("moveend", map, function() {
 
 			$.map.removeAllTracks();
 
