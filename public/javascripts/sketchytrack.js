@@ -14,8 +14,6 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	globalBounds: null,
 
-	interpolatedPoints: null,
-
 	initialize: function(name, options) {
 		OpenLayers.Layer.prototype.initialize.apply(this, arguments);
 		this.canvas = document.createElement('canvas');
@@ -26,7 +24,6 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		this.tracksBounds = {};
 		this.myTracks = {};
 		this.globalBounds = new OpenLayers.Bounds();
-		this.interpolatedPoints = [];
 
 	    // For some reason OpenLayers.Layer.setOpacity assumes there is
 	    // an additional div between the layer's div and its contents.
@@ -114,6 +111,13 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 				this.myTracks[idList[i]] = true;
 			}
 		}
+	},
+
+	removeAllTracks: function() {
+		this.tracks = {};
+		this.tracksBounds = {};
+		this.myTracks = {};
+		this.globalBounds = new OpenLayers.Bounds();
 	},
 
 	moveTo: function(bounds, zoomChanged) {
