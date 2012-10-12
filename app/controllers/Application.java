@@ -22,7 +22,7 @@ public class Application extends Controller {
 	}
 
 	public static Result fullscreenMap() {
-		return ok(views.html.map.render("a fake id", true));
+		return ok(views.html.map.render("_USER_ID_", true));
 	}
 
 	public static Result about(String lang) {

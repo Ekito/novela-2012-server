@@ -52,8 +52,20 @@
 		      		firstPoint = false;
 		      	}
 		    }
+			
+			function onQueueMessage(message) {
+		    	
+		    	var location = JSON.parse(message.getText());
+
+		    }
 		
 			setupKaazing("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onMessage);
+			
+			var userId = "@userId"
+			if(userId != null) {
+				console.log("Connect to queue for user : "+userId)
+				setupKaazingQueue("ws://ec2-46-137-8-173.eu-west-1.compute.amazonaws.com:8001/jms", onQueueMessage ,userId);
+			}
 			
 			// load the initial points
 			$.ajax(

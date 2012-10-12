@@ -27,12 +27,26 @@ public class LocationController extends Controller {
 			Logger.error("centerMap errors : " + bindFromRequest.errors());
 			return badRequest();
 		} else {
-			CenterForm centerForm = bindFromRequest.get();
+			final CenterForm centerForm = bindFromRequest.get();
 			Logger.info("ask centering for id : " + centerForm.userId);
-			// TODO send center position message
-			Logger.warn("implement send message for center");
-			return ok();
+			return async(Akka.future(new Callable<Result>() {
+
+				@Override
+				public Result call() throws Exception {
+
+					sendCenterForm(centerForm);
+					Logger.debug("center form sent : " + centerForm.userId);
+					return ok();
+				}
+			}));
 		}
+	}
+
+	protected static void sendCenterForm(CenterForm centerForm) {
+		LocationProducer locationProducer = Global
+				.getBean(LocationProducer.class);
+		
+		locationProducer.centerLocation(centerForm);
 	}
 
 	public static Result getBoundedArea() {
