@@ -15,9 +15,9 @@ public class LoginForm {
 	}
 
 	public String validate() {
-		if (!Admin.authenticate(email, password)) {
-			return "Invalid user or password";
-		}
+		//if (!Admin.authenticate(email, password)) {
+		//	return "Invalid user or password";
+		//}
 		return null;
 	}
 }

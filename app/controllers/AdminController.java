@@ -1,5 +1,9 @@
 package controllers;
 
+import java.util.List;
+
+import models.Location;
+import models.User;
 import play.data.Form;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -30,7 +34,8 @@ public class AdminController extends Controller {
 
 	@Security.Authenticated(Secured.class)
 	public static Result dashboard() {
-		return ok(views.html.dashboard.render());
+		List<User> users = Location.getUsers();
+		return ok(views.html.dashboard.render(users));
 	}
 
 }
