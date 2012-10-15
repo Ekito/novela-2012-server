@@ -19,9 +19,9 @@ function setupKaazing(url, onMessage, onQueueMessage, userId) {
 
 						var queue = session.createQueue(queueName);
 
-						var consumer = session.createConsumer(queue);
+						var consumerQ = session.createConsumer(queue);
 						
-						consumer.setMessageListener(onQueueMessage);
+						consumerQ.setMessageListener(onQueueMessage);
 
 						console.log("Connected queue : " + queueName)
 					}
