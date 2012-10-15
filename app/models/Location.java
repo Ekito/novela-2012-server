@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.Model;
+import util.LocationFilter;
 import vo.Track;
 
 @Entity
@@ -108,9 +109,8 @@ public class Location extends Model {
 
 		List<Location> result = new ArrayList<Location>();
 		
-		List<Location> locations = finder.where()
-				.orderBy("serverDate").findList();
-
+		List<Location> locations = finder.where().orderBy("serverDate").findList();
+ 
 		// results ordered by tracks
 		List<Track> resultTracks = new ArrayList<Track>();
 		
@@ -165,7 +165,8 @@ public class Location extends Model {
 		for (Track tck : resultTracks) {
 			result.addAll(tck.getLocations());
 		}
-
+		
+		result = LocationFilter.filterNearLocations(result, 0.01);
 		return result;
 
 	}
