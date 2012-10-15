@@ -12,6 +12,8 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	myTracks: null,
 
+	showColors: null,
+
 	globalBounds: null,
 
 	initialize: function(name, options) {
@@ -24,6 +26,11 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		this.tracksBounds = {};
 		this.myTracks = {};
 		this.globalBounds = new OpenLayers.Bounds();
+
+		console.log(options.showColors);
+		if (options) {
+			this.showColors = options.showColors;
+		}
 
 	    // For some reason OpenLayers.Layer.setOpacity assumes there is
 	    // an additional div between the layer's div and its contents.
@@ -167,8 +174,8 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	    	track = this.tracks[i];
 
-	    	// if none of them are my tracks, all tracks are in black
-	    	if (this.isEmpty(this.myTracks)) {
+	    	// if no id specified, everything in black
+	    	if (!this.showColors) {
 	    		this.brush.setColor($.constant.BRUSH_COLOR_PRIMARY);
 	    	}
 	    	// if myTracks contains this track, it's in black

@@ -18,7 +18,7 @@
 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-			$.map.init(@hideControls);
+			$.map.init(@hideControls,"@userId");
 			
 			function onMessage(message) {
 		    	
@@ -26,7 +26,6 @@
 
 		    	@if(userId != null) {
 		    	var me = (location.user.id == "@userId");
-		    	$.map.myId = "@userId";
 		    	} else {
 		    	var me = false;
 		    	}

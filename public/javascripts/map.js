@@ -9,11 +9,13 @@ $.map = {
 	usersLastTrack: null,
 	nextTrackId: null,
 
+	centered: false,
+
 	myId: null,
 
 	referenceBounds: new OpenLayers.Bounds(0.0,42.0,1.6,44.0),
 
-	init: function(hideControls,data) {
+	init: function(hideControls,myId,data) {
 
 		/* instanciation */
 		if (hideControls) {
@@ -21,12 +23,14 @@ $.map = {
 		} else {
 			this.olMap = new OpenLayers.Map("map");
 			/* kinetic effect on the map */
-			this.olMap.addControl(new OpenLayers.Control.Navigation({dragPanOptions: {enableKinetic: true}}));
+			//this.olMap.addControl(new OpenLayers.Control.Navigation({dragPanOptions: {enableKinetic: true}}));
 
 			this.addCenterMapBtn();
 		}
 		this.usersLastTrack = {};
 		this.nextTrackId = 0;
+
+		this.myId = myId;
 
 		/* listener when the map moves */
 		this.olMap.events.register("moveend", map, function() {
@@ -58,7 +62,8 @@ $.map = {
 		this.olMap.addLayer(wms);
 
 		/* Build Sketchytrack layer */
-		this.olTracks = new Sketchytrack.Layer("SampleTrack");
+		//console.log(this.myId);
+		this.olTracks = new Sketchytrack.Layer("SampleTrack",{showColors:(this.myId != "")});
 		if (data) {
 			for(var i in data) 
 			{
@@ -101,8 +106,11 @@ $.map = {
                 	maxLon: bounds.right
                 },
                 success : function(data) {
+                	//console.log("myid: "+$.map.myId);
                 	$.each(data, function(index, location){
                 		var me = ($.map.myId == location.user.id);
+                		//console.log("me: "+me);
+                		//console.log("id: "+location.user.id);
                 		$.map.addPointToTrack(
         		      			location.user.id,
         		      			{
@@ -116,7 +124,8 @@ $.map = {
         		      					isMe: me
         		      			});
 
-				    	if (me && location.start) {
+				    	if (me && location.start && !$.map.centered) {
+				    		$.map.centered = true;
 				    		$.map.showTrack(location.user.id);
 				    	}
                 	});
