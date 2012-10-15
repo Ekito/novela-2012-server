@@ -34,9 +34,6 @@ $.map = {
 
 		/* listener when the map moves */
 		this.olMap.events.register("moveend", map, function() {
-
-			$.map.removeAllTracks();
-
             var bounds = $.map.olMap.getExtent();
             $.map.loadPoints(bounds);
         });
@@ -109,6 +106,7 @@ $.map = {
                 },
                 success : function(data) {
                 	//console.log("myid: "+$.map.myId);
+					$.map.removeAllTracks();
                 	$.each(data, function(index, location){
                 		var me = ($.map.myId == location.user.id);
                 		//console.log("me: "+me);

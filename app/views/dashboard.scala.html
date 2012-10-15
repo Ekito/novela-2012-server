@@ -1,0 +1,32 @@
+@(users: List[User])
+
+@css = {
+}
+
+@javascript = {
+}
+
+@main(Messages("dashboard"))("dashboard")(false)(javascript)(css) {
+    
+    <div class="row-fluid">
+	    <table class="table span3">
+	    	<theader>
+	    		<th>Remove</th>
+	    		<th>Id</th>
+	    	</theader>
+	    	<tbody>
+			    @for(user <- users) {
+			    <tr>
+			    	<td><a><i class="icon-trash"></i></a></td>
+			        <td><a href="@routes.Application.focusedMap(user.getId())">@user.getId()</a></td>
+			    </tr>
+			    }
+	    	</tbody>
+	    </table>
+
+    </div>
+	    
+}
+    
+
+

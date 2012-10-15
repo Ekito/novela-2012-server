@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.Nullable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -14,6 +15,9 @@ import javax.persistence.Id;
 import play.db.ebean.Model;
 import util.LocationFilter;
 import vo.Track;
+
+import com.google.common.base.Function;
+import com.google.common.collect.Lists;
 
 @Entity
 public class Location extends Model {
@@ -102,6 +106,21 @@ public class Location extends Model {
 	public static int locationsCount() {
 		return finder.findRowCount();
 	}
+	
+	public static List<User> getUsers() {
+		List<Location> locations = finder.select("user").setDistinct(true).findList();
+		
+		return Lists.transform(locations, new Function<Location, User>() {
+
+			@Override
+			public User apply(@Nullable Location arg0) {
+				// TODO Auto-generated method stub
+				return arg0.getUser();
+			}
+			
+		});
+		
+	}
 
 	public static List<Location> getBoundedLocations(final Float minLat,
 			final Float maxLat, final Float minLon, final Float maxLon) {
@@ -168,7 +187,6 @@ public class Location extends Model {
 		}
 		
 		result = LocationFilter.filterNearLocations(result, 2.0);
-		
 		return result;
 
 	}

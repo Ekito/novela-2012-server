@@ -12,6 +12,31 @@ html, body {
 	height: 100%;
 }
 
+form {
+	@item-padding: 15px;
+
+	h1, h2, h3 {
+		margin-bottom: @item-padding;
+	}
+
+	input {
+		height: 28px !important;	// we're using fixed static height for inputs because of box-sizing border-box property
+	}
+	// scaling label height to fit input height
+	label {
+		padding: 0 @item-padding;
+		line-height: @item-padding*2;
+		margin-top: 1px; // taking in account input border size
+		margin-bottom: 1px;
+	}
+
+	textarea { 
+    	resize: vertical;
+    	min-height: 200px;
+    	max-height: 400px;
+	}
+}
+
 .navbar-fixed-top {
 	@media (max-width: 979px) {
 		margin-bottom: 0px;
@@ -74,6 +99,14 @@ html, body {
 
 		img.inline {
 			margin-bottom: 10px;
+		}
+
+		.centered {
+			position: absolute;
+			left: 35%;
+			top: 30%;
+			width: 30%;
+			min-height: 20%;
 		}
 	}
 }

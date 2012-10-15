@@ -15,6 +15,9 @@
         </ul>
         <ul class="nav pull-right">
           <li@if(category.equals("about")){ class="active"}><a href="@routes.Application.about()">@Messages("about")</a></li>
+          @if(Secured.isLogged(ctx())) {
+            <li><a href="@routes.AdminController.logout()">@Messages("login.logout")</a></li>
+          }
         </ul>
       </div><!--/.nav-collapse -->
     </div>
