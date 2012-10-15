@@ -54,7 +54,7 @@
 		    	
 		    	var location = JSON.parse(message.getText());
 				
-		    	$.map.setCenter(location)
+		    	$.map.setCenter(location,10);
 		    	
 		    	console.log("center on : " + location)
 		    }

@@ -44,9 +44,9 @@ $.map = {
         this.olMap.events.register('zoomend', this, function (event) {
 	        var x = $.map.olMap.getZoom();
 	        
-	        if( x < 9)
+	        if( x < 10)
 	        {
-	            $.map.olMap.zoomTo(9);
+	            $.map.olMap.zoomTo(10);
 	        }
 	    });
 
