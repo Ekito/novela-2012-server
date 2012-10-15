@@ -27,7 +27,6 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		this.myTracks = {};
 		this.globalBounds = new OpenLayers.Bounds();
 
-		console.log(options.showColors);
 		if (options) {
 			this.showColors = options.showColors;
 		}
@@ -159,7 +158,7 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 
 	    var start;
 
-	    console.log(this.tracks);
+	    //console.log(this.tracks);
 
 		if (!$.constant.IS_SAFARI || !$.constant.IS_FIREFOX) {
 			this.brush.beginPath();

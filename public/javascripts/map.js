@@ -13,7 +13,7 @@ $.map = {
 
 	myId: null,
 
-	referenceBounds: new OpenLayers.Bounds(0.0,42.0,1.6,44.0),
+	referenceBounds: new OpenLayers.Bounds(1.282,43.570,1.520,43.653),
 
 	init: function(hideControls,myId,data) {
 
@@ -41,12 +41,14 @@ $.map = {
             $.map.loadPoints(bounds);
         });
 
-        /* max zoom level */
-        OpenLayers.Map.isValidZoomLevel = function(zoomLevel) {
-		   return ( (zoomLevel != null) &&
-		      (zoomLevel >= 10) && // set min level here, could read from property
-		      (zoomLevel < 11) );
-		}
+        this.olMap.events.register('zoomend', this, function (event) {
+	        var x = $.map.olMap.getZoom();
+	        
+	        if( x < 9)
+	        {
+	            $.map.olMap.zoomTo(9);
+	        }
+	    });
 
 		/* White layer */
 		var wms = new OpenLayers.Layer.Image(
