@@ -20,7 +20,6 @@ public class Location extends Model {
 
 	private static final long serialVersionUID = 1973445298197201545L;
 
-	@SuppressWarnings("unused")
 	@Id
 	private Long id;
 
@@ -34,17 +33,17 @@ public class Location extends Model {
 	private User user = null;
 
 	@Column(nullable = false)
-	protected Float lat = 0.0f;
+	protected Double lat = 0.0d;
 
 	@Column(nullable = false)
-	protected Float lon = 0.0f;
+	protected Double lon = 0.0d;
 
 	public Location() {
 
 		this.serverDate = new Date();
 	}
 
-	public Location(final User aUser, final Float aLat, final Float aLon,
+	public Location(final User aUser, final Double aLat, final Double aLon,
 			final Boolean aIsStart) {
 		this.user = aUser;
 		this.lat = aLat;
@@ -77,19 +76,19 @@ public class Location extends Model {
 		this.serverDate = serverDate;
 	}
 
-	public Float getLat() {
+	public Double getLat() {
 		return lat;
 	}
 
-	public void setLat(final Float x) {
+	public void setLat(final Double x) {
 		this.lat = x;
 	}
 
-	public Float getLon() {
+	public Double getLon() {
 		return lon;
 	}
 
-	public void setLon(final Float y) {
+	public void setLon(final Double y) {
 		this.lon = y;
 	}
 
@@ -119,6 +118,8 @@ public class Location extends Model {
 		
 		// current track user id		
 		String userId;
+		
+		
 		
 		// current track
 		Track track;
@@ -166,8 +167,14 @@ public class Location extends Model {
 			result.addAll(tck.getLocations());
 		}
 		
-		result = LocationFilter.filterNearLocations(result, 0.01);
+		result = LocationFilter.filterNearLocations(result, 2.0);
+		
 		return result;
 
+	}
+	
+	@Override
+	public String toString(){
+		return "["+id+"] lat:"+lat+" lon:"+lon+" start:"+isStart;
 	}
 }

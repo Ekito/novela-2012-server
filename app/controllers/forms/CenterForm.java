@@ -5,10 +5,10 @@ import play.data.validation.Constraints.Required;
 public class CenterForm {
 	
 	@Required
-	public Float lat;
+	public Double lat;
 	
 	@Required
-	public Float lon;
+	public Double lon;
 	
 	@Required
 	public String userId;

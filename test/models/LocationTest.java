@@ -22,8 +22,8 @@ public class LocationTest {
 						2.0F).size();
 
 				User user = new User("I'm a test user");
-				Location locationIn = new Location(user, 1.0F, 2.0F, true);
-				Location locationOut = new Location(user, -1.0F, 0F, false);
+				Location locationIn = new Location(user, 1.0d, 2.0d, true);
+				Location locationOut = new Location(user, -1.0d, 0d, false);
 
 				Location.saveLocation(locationIn);
 				Location.saveLocation(locationOut);
