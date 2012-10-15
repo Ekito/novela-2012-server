@@ -19,8 +19,6 @@
 	<script type="text/javascript">
 	$(document).ready(function() {
 			$.map.init(@hideControls);
-
-		    var firstPoint = true;
 			
 			function onMessage(message) {
 		    	
@@ -28,6 +26,7 @@
 
 		    	@if(userId != null) {
 		    	var me = (location.user.id == "@userId");
+		    	$.map.myId = "@userId";
 		    	} else {
 		    	var me = false;
 		    	}
@@ -45,12 +44,11 @@
 		      					center: false,	// call showAllTracks
 		      					isMe: me
 		      			});
+		      	
+		    	if (me && location.start) {
+		    		$.map.showTrack(location.user.id);
+		    	}
 		    	//console.log("draw point end");
-
-		      	if (firstPoint) {
-		      		$.map.showAllTracks();
-		      		firstPoint = false;
-		      	}
 		    }
 			
 			function onQueueMessage(message) {

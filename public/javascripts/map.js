@@ -9,6 +9,8 @@ $.map = {
 	usersLastTrack: null,
 	nextTrackId: null,
 
+	myId: null,
+
 	referenceBounds: new OpenLayers.Bounds(0.0,42.0,1.6,44.0),
 
 	init: function(hideControls,data) {
@@ -34,6 +36,13 @@ $.map = {
             var bounds = $.map.olMap.getExtent();
             $.map.loadPoints(bounds);
         });
+
+        /* max zoom level */
+        OpenLayers.Map.isValidZoomLevel = function(zoomLevel) {
+		   return ( (zoomLevel != null) &&
+		      (zoomLevel >= 10) && // set min level here, could read from property
+		      (zoomLevel < 11) );
+		}
 
 		/* White layer */
 		var wms = new OpenLayers.Layer.Image(
@@ -93,6 +102,7 @@ $.map = {
                 },
                 success : function(data) {
                 	$.each(data, function(index, location){
+                		var me = ($.map.myId == location.user.id);
                 		$.map.addPointToTrack(
         		      			location.user.id,
         		      			{
@@ -103,8 +113,12 @@ $.map = {
         		      			{
         		      					redraw: false,	// redraw the layer
         		      					center: false,	// call showAllTracks
-        		      					isMe: false
+        		      					isMe: me
         		      			});
+
+				    	if (me && location.start) {
+				    		$.map.showTrack(location.user.id);
+				    	}
                 	});
                 	$.map.olTracks.redraw();
                 }
