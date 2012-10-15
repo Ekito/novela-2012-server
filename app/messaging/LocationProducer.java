@@ -29,6 +29,7 @@ public class LocationProducer {
 	
 	public void centerLocation(final CenterForm centerForm) {
 		Location loc = new Location(new User(centerForm.userId), centerForm.lat, centerForm.lon, false);
-		template.convertAndSend(new ActiveMQQueue("/queue/"+centerForm.userId),loc);
+//		template.convertAndSend(new ActiveMQQueue("/queue/"+centerForm.userId),loc);
+		template.convertAndSend(new ActiveMQQueue(centerForm.userId),loc);
 	}
 }
