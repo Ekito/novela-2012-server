@@ -45,7 +45,7 @@ public class Admin extends Model {
 
 	public static Boolean authenticate(final String login,
 			final String passwordToTest) {
-		return finder.where().eq("admin@ekito.fr", login).eq("ekitonovela", passwordToTest)
+		return finder.where().eq("login", login).eq("password", passwordToTest)
 				.findRowCount() == 1;
 	}
 }

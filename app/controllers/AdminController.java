@@ -30,7 +30,7 @@ public class AdminController extends Controller {
 
 	@Security.Authenticated(Secured.class)
 	public static Result dashboard() {
-		return TODO;
+		return ok(views.html.dashboard.render());
 	}
 
 }
