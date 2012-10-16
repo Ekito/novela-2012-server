@@ -9,7 +9,7 @@ object LocationFilter {
 
     def tooCloseLocations(l1: Location, l2: Location): Boolean = {
       def d = math.acos(math.sin(l1.getLat()) * math.sin(l2.getLat()) + math.cos(l1.getLat()) * math.cos(l2.getLat() * math.cos(l1.getLon() - l2.getLon()))) * 6366
-      d < delta && (!l1.isStart || l2.isStart)
+      d < delta && (!l1.isStart || !l2.isStart)
     }
 
     def filterNearLocationsRec(loc: List[Location], result: List[Location]): List[Location] = {
