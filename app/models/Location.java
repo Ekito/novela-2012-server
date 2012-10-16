@@ -1,6 +1,7 @@
 package models;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -20,7 +21,7 @@ import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
 @Entity
-public class Location extends Model {
+public class Location extends Model implements Comparable<Location> {
 
 	private static final long serialVersionUID = 1973445298197201545L;
 
@@ -185,14 +186,27 @@ public class Location extends Model {
 		for (Track tck : resultTracks) {
 			result.addAll(tck.getLocations());
 		}
-		
-		result = LocationFilter.filterNearLocations(result, 2.0);
-		return result;
+		List<Location> finalList = new ArrayList<Location>();
+		finalList.addAll(LocationFilter.filterNearLocations(result, 2.0));
+		Collections.sort(finalList);
+		return finalList;
 
 	}
 	
 	@Override
 	public String toString(){
 		return "["+id+"] lat:"+lat+" lon:"+lon+" start:"+isStart;
+	}
+
+	@Override
+	public int compareTo(Location o) {
+		int cmp = 0;
+		if (this.getServerDate().getTime() > o.getServerDate().getTime()){
+			cmp = 1;
+		}
+		else if (this.getServerDate().getTime() < o.getServerDate().getTime()){
+			cmp = -1;
+		}
+		return cmp;
 	}
 }
