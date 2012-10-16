@@ -31,6 +31,9 @@ $.map = {
 		this.nextTrackId = 0;
 
 		this.myId = myId;
+		if (myId == "_USER_ID_") {
+			this.myId = "";
+		}
 
 		/* listener when the map moves */
 		this.olMap.events.register("moveend", map, function() {
