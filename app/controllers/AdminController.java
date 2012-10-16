@@ -38,4 +38,10 @@ public class AdminController extends Controller {
 		return ok(views.html.dashboard.render(users));
 	}
 
+	@Security.Authenticated(Secured.class)
+	public static Result deleteUser(String id) {
+		Location.removeLocationsForUser(id);
+		return redirect(routes.AdminController.dashboard());
+	}
+
 }
