@@ -13,6 +13,8 @@ POST	/location						controllers.LocationController.addLocation()
 POST	/location/center				controllers.LocationController.centerMap()
 GET		/location/area					controllers.LocationController.getBoundedArea()
 
+GET  	/user/delete/:user_id			controllers.AdminController.deleteUser(user_id : String)
+
 GET		/admin/login/					controllers.AdminController.login
 POST    /admin/login/                   controllers.AdminController.authenticate
 GET     /admin/logout/                  controllers.AdminController.logout

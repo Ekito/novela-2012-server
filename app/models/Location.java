@@ -126,6 +126,15 @@ public class Location extends Model implements Comparable<Location> {
 		});
 		
 	}
+	
+	public static void removeLocationsForUser(String id) {
+		
+		List<Location> locations = finder.where().eq("user_id", id).findList();
+		for (Location loc : locations) {
+			loc.delete();
+		}
+		
+	}
 
 	public static List<Location> getBoundedLocations(final Float minLat,
 			final Float maxLat, final Float minLon, final Float maxLon) {

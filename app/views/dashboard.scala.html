@@ -17,7 +17,7 @@
 	    	<tbody>
 			    @for(user <- users) {
 			    <tr>
-			    	<td><a><i class="icon-trash"></i></a></td>
+			    	<td><a href="@routes.AdminController.deleteUser(user.getId())"><i class="icon-trash"></i></a></td>
 			        <td><a href="@routes.Application.focusedMap(user.getId())">@user.getId()</a></td>
 			    </tr>
 			    }
