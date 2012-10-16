@@ -6,7 +6,7 @@
 @javascript = {
 }
 
-@main(Messages("login.title"))("login")(false)(javascript)(css) {
+@main(Messages("login.title"))("login")(false)(true)(javascript)(css) {
     
 	    @helper.form(routes.AdminController.authenticate,'class -> "centered") {
         

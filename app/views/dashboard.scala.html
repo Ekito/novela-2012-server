@@ -4,16 +4,17 @@
 }
 
 @javascript = {
+	@map_js(null)(false)
 }
 
-@main(Messages("dashboard"))("dashboard")(false)(javascript)(css) {
+@main(Messages("dashboard"))("dashboard")(false)(true)(javascript)(css) {
     
     <div class="row-fluid">
 	    <table class="table span3">
-	    	<theader>
+	    	<thead>
 	    		<th>Remove</th>
 	    		<th>Id</th>
-	    	</theader>
+	    	</thead>
 	    	<tbody>
 			    @for(user <- users) {
 			    <tr>
@@ -23,7 +24,9 @@
 			    }
 	    	</tbody>
 	    </table>
-
+	    <div class="span9" style="position:relative">
+	    	@map_canvas(null)(false)
+	    </div>
     </div>
 	    
 }

@@ -1,0 +1,5 @@
+@(userId:String)(hideControls:Boolean)
+
+@defining(userId != null) { hideHeader =>
+	<div  id="map" data-bg="@routes.Assets.at("images/white.png")" @if(hideHeader){ class="no-header"}></div>
+}

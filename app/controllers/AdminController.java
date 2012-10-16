@@ -13,7 +13,11 @@ import controllers.forms.LoginForm;
 public class AdminController extends Controller {
 
 	public static Result login() {
-		return ok(views.html.login.render(form(LoginForm.class)));
+		if (Secured.isLogged(ctx())) {
+			return redirect(routes.AdminController.dashboard());
+		} else {
+			return ok(views.html.login.render(form(LoginForm.class)));
+		}
 	}
 
 	public static Result authenticate() {
