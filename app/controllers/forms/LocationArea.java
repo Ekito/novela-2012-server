@@ -17,4 +17,7 @@ public class LocationArea {
 	public Float maxLon;
 	
 	public String userId;
+	
+	@Required
+	public Integer zoom;
 }

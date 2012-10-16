@@ -20,7 +20,7 @@ public class LocationTest {
 				String id = "Test";
 
 				int before = Location.getBoundedLocations(0.0F, 2.0F, 0.0F,
-						2.0F,id).size();
+						2.0F,id,1).size();
 
 				User user = new User(id);
 				Location locationIn = new Location(user, 1.0d, 2.0d, true);
@@ -30,7 +30,7 @@ public class LocationTest {
 				Location.saveLocation(locationOut);
 
 				List<Location> boundedLocations = Location.getBoundedLocations(
-						0.0F, 2.0F, 0.0F, 2.0F,id);
+						0.0F, 2.0F, 0.0F, 2.0F,id,1);
 
 				int after = boundedLocations.size();
 

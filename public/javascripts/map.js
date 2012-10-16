@@ -41,15 +41,6 @@ $.map = {
             $.map.loadPoints(bounds);
         });
 
-        this.olMap.events.register('zoomend', this, function (event) {
-	        var x = $.map.olMap.getZoom();
-	        
-	        if( x < 10)
-	        {
-	            $.map.olMap.zoomTo(10);
-	        }
-	    });
-
 		/* White layer */
 		var wms = new OpenLayers.Layer.Image(
 			"White layer",
@@ -106,7 +97,8 @@ $.map = {
                 	maxLat: bounds.top,
                 	minLon: bounds.left,
                 	maxLon: bounds.right,
-                	userId: $.map.myId
+                	userId: $.map.myId,
+                	zoom: $.map.olMap.getZoom()
                 },
                 success : function(data) {
                 	//console.log("myid: "+$.map.myId);

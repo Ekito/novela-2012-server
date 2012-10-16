@@ -29,7 +29,7 @@ public class AdminController extends Controller {
 			return redirect(routes.AdminController.dashboard());
 		}
 	}
-
+	
 	public static Result logout() {
 		session().remove("email");
 		flash("success", "You've been logged out");
