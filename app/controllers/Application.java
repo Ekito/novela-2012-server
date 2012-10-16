@@ -8,7 +8,7 @@ import views.html.map;
 
 public class Application extends Controller {
 
-	private static final String FULLSCREEN_MAP_ID = "_USER_ID_";
+	public static final String FULLSCREEN_MAP_ID = "_USER_ID_";
 
 	public static Result index() {
 		return redirect(routes.Application.map());

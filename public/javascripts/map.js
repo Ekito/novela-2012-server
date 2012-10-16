@@ -109,7 +109,6 @@ $.map = {
                 	//console.log("myid: "+$.map.myId);
 					$.map.removeAllTracks();
                 	$.each(data, function(index, location){
-                		location.user.id = 0
                 		var me = ($.map.myId == location.user.id);
                 		//console.log("me: "+me);
                 		//console.log("id: "+location.user.id);

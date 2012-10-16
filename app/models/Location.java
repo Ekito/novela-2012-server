@@ -23,6 +23,8 @@ import com.avaje.ebean.SqlRow;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
+import controllers.Application;
+
 @Entity
 public class Location extends Model implements Comparable<Location> {
 
@@ -142,7 +144,7 @@ public class Location extends Model implements Comparable<Location> {
 		List<Location> result = new ArrayList<Location>();
 		
 		List<Location> locations = null;
-		if (givenUserId != null && !givenUserId.isEmpty()){
+		if (givenUserId != null && !givenUserId.isEmpty() && !givenUserId.equals(Application.FULLSCREEN_MAP_ID)){
 			locations = finder.where().eq("user.id", givenUserId).orderBy("serverDate").findList();
 		}
 		else{
