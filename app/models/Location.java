@@ -206,10 +206,10 @@ public class Location extends Model implements Comparable<Location> {
 		for (Track tck : resultTracks) {
 			result.addAll(tck.getLocations());
 		}
-		List<Location> finalList = new ArrayList<Location>();
-		finalList.addAll(LocationFilter.filterNearLocations(result, 2.0));
-		Collections.sort(finalList);
-		return finalList;
+//		List<Location> finalList = new ArrayList<Location>();
+//		finalList.addAll(LocationFilter.filterNearLocations(result, 2.0));
+//		Collections.sort(finalList);
+		return result;
 
 	}
 	
