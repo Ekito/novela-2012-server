@@ -17,6 +17,9 @@ import play.db.ebean.Model;
 import util.LocationFilter;
 import vo.Track;
 
+import com.avaje.ebean.Ebean;
+import com.avaje.ebean.SqlQuery;
+import com.avaje.ebean.SqlRow;
 import com.google.common.base.Function;
 import com.google.common.collect.Lists;
 
@@ -109,14 +112,15 @@ public class Location extends Model implements Comparable<Location> {
 	}
 	
 	public static List<User> getUsers() {
-		List<Location> locations = finder.select("user").setDistinct(true).findList();
 		
-		return Lists.transform(locations, new Function<Location, User>() {
+		SqlQuery query = Ebean.createSqlQuery("SELECT DISTINCT user_id FROM location;");
+		List<SqlRow> locations = query.findList();
+		
+		return Lists.transform(locations, new Function<SqlRow, User>() {
 
 			@Override
-			public User apply(@Nullable Location arg0) {
-				// TODO Auto-generated method stub
-				return arg0.getUser();
+			public User apply(@Nullable SqlRow arg0) {
+				return new User(arg0.getString("user_id"));
 			}
 			
 		});
