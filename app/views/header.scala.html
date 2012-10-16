@@ -14,6 +14,16 @@
           <li@if(category.equals("map")){ class="active"}><a href="@routes.Application.map()">@Messages("drawing")</a></li>
         </ul>
         <ul class="nav pull-right">
+          <li class="dropdown" id="menu1">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#menu1">
+                @Messages("mobile_apps")
+              <b class="caret"></b>
+            </a>
+            <div class="dropdown-menu">
+               <a href="https://itunes.apple.com/fr/app/id568869421">iPhone</a>
+               <a href="@routes.Assets.at("deambulations.apk")">Android</a>
+            </div>
+          </li>
           <li@if(category.equals("about")){ class="active"}><a href="@routes.Application.about()">@Messages("about")</a></li>
           @if(Secured.isLogged(ctx())) {
             <li><a href="@routes.AdminController.logout()">@Messages("login.logout")</a></li>
