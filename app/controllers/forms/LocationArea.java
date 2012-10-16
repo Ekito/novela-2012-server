@@ -16,4 +16,5 @@ public class LocationArea {
 	@Required
 	public Float maxLon;
 	
+	public String userId;
 }

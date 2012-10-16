@@ -3,6 +3,8 @@ package util
 import scala.collection.JavaConversions._
 import models._
 import play.api.Logger
+import com.google.common.collect.SortedLists
+import scala.collection.mutable.Buffer
 
 object LocationFilter {
   def filterNearLocations(locations: java.util.List[Location], delta: Double): java.util.List[Location] = {
@@ -16,15 +18,16 @@ object LocationFilter {
       l1.isStart || l2.isStart
     }
 
-    def filterNearLocationsRec(loc: List[Location], result: List[Location]): List[Location] = {
+    def filterNearLocationsRec(loc: Buffer[Location], result: List[Location]): List[Location] = {
       if (loc.isEmpty) result
       else if (!result.isEmpty && tooCloseLocations(loc.head, result.head) && !areStartingPoints(loc.head, result.head)) {
-        if (loc.head.isStart)println("eject => "+loc.head)
+        if (loc.head.isStart){
+          println("eject => "+loc.head)
+        }
         filterNearLocationsRec(loc.tail, result)
       }
       else filterNearLocationsRec(loc.tail, loc.head :: result)
     }
-
-    filterNearLocationsRec(locations.toList, List())
+    filterNearLocationsRec(locations, List())
   }
 }

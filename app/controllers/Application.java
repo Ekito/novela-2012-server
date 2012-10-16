@@ -8,6 +8,8 @@ import views.html.map;
 
 public class Application extends Controller {
 
+	private static final String FULLSCREEN_MAP_ID = "_USER_ID_";
+
 	public static Result index() {
 		return redirect(routes.Application.map());
 	}
@@ -21,7 +23,7 @@ public class Application extends Controller {
 	}
 
 	public static Result fullscreenMap() {
-		return ok(views.html.map.render("_USER_ID_", true));
+		return ok(views.html.map.render(FULLSCREEN_MAP_ID, true));
 	}
 
 	public static Result about(String lang) {

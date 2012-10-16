@@ -124,11 +124,17 @@ public class Location extends Model implements Comparable<Location> {
 	}
 
 	public static List<Location> getBoundedLocations(final Float minLat,
-			final Float maxLat, final Float minLon, final Float maxLon) {
+			final Float maxLat, final Float minLon, final Float maxLon, String givenUserId) {
 
 		List<Location> result = new ArrayList<Location>();
 		
-		List<Location> locations = finder.where().orderBy("serverDate").findList();
+		List<Location> locations = null;
+		if (givenUserId != null && !givenUserId.isEmpty()){
+			locations = finder.where().eq("user.id", givenUserId).orderBy("serverDate").findList();
+		}
+		else{
+			locations = finder.where().orderBy("serverDate").findList();
+		}
  
 		// results ordered by tracks
 		List<Track> resultTracks = new ArrayList<Track>();
@@ -138,7 +144,6 @@ public class Location extends Model implements Comparable<Location> {
 		
 		// current track user id		
 		String userId;
-		
 		
 		
 		// current track

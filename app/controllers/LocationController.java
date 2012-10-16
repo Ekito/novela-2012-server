@@ -66,7 +66,7 @@ public class LocationController extends Controller {
 			final Form<LocationArea> bindFromRequest) {
 		LocationArea locationArea = bindFromRequest.get();
 		return Location.getBoundedLocations(locationArea.minLat,
-				locationArea.maxLat, locationArea.minLon, locationArea.maxLon);
+				locationArea.maxLat, locationArea.minLon, locationArea.maxLon,locationArea.userId);
 	}
 
 	public static Result addLocation() {

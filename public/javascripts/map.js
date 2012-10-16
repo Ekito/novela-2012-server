@@ -102,7 +102,8 @@ $.map = {
                 	minLat: bounds.bottom,   // TODO NDE: find a good center
                 	maxLat: bounds.top,
                 	minLon: bounds.left,
-                	maxLon: bounds.right
+                	maxLon: bounds.right,
+                	userId: $.map.myId
                 },
                 success : function(data) {
                 	//console.log("myid: "+$.map.myId);
