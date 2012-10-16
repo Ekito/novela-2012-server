@@ -1,7 +1,6 @@
 package models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import play.db.ebean.Model;
-import util.LocationFilter;
 import vo.Track;
 
 import com.avaje.ebean.Ebean;

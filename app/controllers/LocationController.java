@@ -57,7 +57,7 @@ public class LocationController extends Controller {
 			return badRequest();
 		} else {
 			List<Location> points = getBoundedLocations(bindFromRequest);
-			Logger.info("getBoundedArea returned " + points.size());
+			Logger.debug("getBoundedArea returned " + points.size());
 			return ok(Json.toJson(points));
 		}
 	}
