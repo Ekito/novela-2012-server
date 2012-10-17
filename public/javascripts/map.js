@@ -97,6 +97,8 @@ $.map = {
 
 	loadPoints: function(bounds) {
 
+		startLoading();
+
 		var data = {
                 	userId: $.map.myId,
                 	zoom: $.map.olMap.getZoom()
@@ -115,6 +117,7 @@ $.map = {
                 method: 'get',
                 data: data,
                 success : function(data) {
+                	stopLoading();
                 	//console.log("myid: "+$.map.myId);
 					$.map.removeAllTracks();
                 	$.each(data, function(index, location){
@@ -140,6 +143,9 @@ $.map = {
 				    	}
                 	});
                 	$.map.olTracks.redraw();
+                },
+                error : function() {
+                	stopLoading();
                 }
                 
             }
