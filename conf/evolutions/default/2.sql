@@ -9,8 +9,6 @@ create table admin_user (
 
 
 create sequence admin_user_seq;
-
-
 # --- !Downs
 
 SET REFERENTIAL_INTEGRITY FALSE;
