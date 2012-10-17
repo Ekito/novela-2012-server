@@ -15,27 +15,29 @@ import play.Logger;
 import play.libs.Json;
 
 public class Dataset {
+	
+	public static final String SIMULATION_DATASET_JSON = "/simulation/dataset.json";
 
 	private static String dataset;
 
-	protected static JsonNode loadDataset() throws IOException {
+	protected static JsonNode loadDataset(String path) throws IOException {
 		if (dataset == null) {
 			dataset = IOUtils.toString(Dataset.class
-					.getResourceAsStream("/simulation/dataset.json"));
+					.getResourceAsStream(path));
 		}
 
 		return Json.parse(dataset);
 
 	}
 
-	public static List<Location> findLocations(final String userId) {
+	public static List<Location> findLocations(final String userId, final String path) {
 
 		List<Location> result = new ArrayList<Location>();
 
 		User user = new User(userId);
 
 		try {
-			JsonNode dataForUser = loadDataset().findValue(userId);
+			JsonNode dataForUser = loadDataset(path).findValue(userId);
 			if (dataForUser == null) {
 				return null;
 			}

@@ -45,20 +45,26 @@ public class LocationController extends Controller {
 	protected static void sendCenterForm(CenterForm centerForm) {
 		LocationProducer locationProducer = Global
 				.getBean(LocationProducer.class);
-		
+
 		locationProducer.centerLocation(centerForm);
 	}
 
 	public static Result getBoundedArea() {
-		Form<LocationArea> bindFromRequest = form(LocationArea.class)
+		final Form<LocationArea> bindFromRequest = form(LocationArea.class)
 				.bindFromRequest();
 		if (bindFromRequest.hasErrors()) {
 			Logger.error("getBoundedArea errors : " + bindFromRequest.errors());
 			return badRequest();
 		} else {
-			List<Location> points = getBoundedLocations(bindFromRequest);
-			Logger.debug("getBoundedArea returned " + points.size());
-			return ok(Json.toJson(points));
+			return async(Akka.future(new Callable<Result>() {
+
+				@Override
+				public Result call() throws Exception {
+					List<Location> points = getBoundedLocations(bindFromRequest);
+					// Logger.debug("getBoundedArea returned " + points.size());
+					return ok(Json.toJson(points));
+				}
+			}));
 		}
 	}
 
@@ -66,7 +72,8 @@ public class LocationController extends Controller {
 			final Form<LocationArea> bindFromRequest) {
 		LocationArea locationArea = bindFromRequest.get();
 		return Location.getBoundedLocations(locationArea.minLat,
-				locationArea.maxLat, locationArea.minLon, locationArea.maxLon,locationArea.userId,locationArea.zoom);
+				locationArea.maxLat, locationArea.minLon, locationArea.maxLon,
+				locationArea.userId, locationArea.zoom);
 	}
 
 	public static Result addLocation() {

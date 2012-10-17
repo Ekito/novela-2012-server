@@ -1,18 +1,16 @@
 package simulation
-import models.Location
 import scala.collection.JavaConversions._
-import play.api.libs.ws.WS
-import play.mvc.Http.Request
+
 import akka.actor.Actor
 import akka.actor.ActorSystem
 import akka.actor.Props
-import play.libs.Akka
-import play.api.Logger
-import com.typesafe.config.ConfigFactory
-import akka.routing.RoundRobinRouter
 import akka.actor.ReceiveTimeout
-import akka.util.Duration
-import java.util.concurrent.TimeUnit
+import akka.routing.RoundRobinRouter
+import models.Location
+import play.api.libs.ws.WS
+import play.api.Logger
+import play.libs.Akka
+import play.mvc.Http.Request
 
 /**
  * Yeah, let's write a Scala actor !
@@ -61,7 +59,7 @@ object Simulation {
       true
     }
 
-    val locations = Dataset.findLocations(userId)
+    val locations = Dataset.findLocations(Dataset.SIMULATION_DATASET_JSON ,userId)
     if (locations == null) {
       false
     } else {

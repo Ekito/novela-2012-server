@@ -14,7 +14,7 @@ public class SimulationTest {
 	@Test
 	public void testLoadDataset() throws Exception {
 
-		JsonNode json = Dataset.loadDataset();
+		JsonNode json = Dataset.loadDataset(Dataset.SIMULATION_DATASET_JSON);
 		assertThat(json).isNotNull();
 
 	}
@@ -22,7 +22,7 @@ public class SimulationTest {
 	@Test
 	public void testFindLocations() throws Exception {
 
-		List<Location> locations = Dataset.findLocations("0");
+		List<Location> locations = Dataset.findLocations(Dataset.SIMULATION_DATASET_JSON,"0");
 		assertThat(locations).isNotNull();
 		assertThat(locations).isNotEmpty();
 

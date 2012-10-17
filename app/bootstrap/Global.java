@@ -31,7 +31,7 @@ public class Global extends GlobalSettings {
 
 			Logger.info("Loading some datasets...");
 			for (int i = 0; i <= 8; i++) {
-				List<Location> locations = Dataset.findLocations(String
+				List<Location> locations = Dataset.findLocations(Dataset.SIMULATION_DATASET_JSON, String
 						.valueOf(i));
 				if (locations != null) {
 					for (Location location : locations) {
