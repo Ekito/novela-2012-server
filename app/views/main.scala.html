@@ -33,7 +33,7 @@
 		</div>
 
         @if(!hideFooter) {
-            <footer@if(category.equals("map")){ class="absolute-positionned"}>powered by <a href="http://ekito.fr"><img src="@routes.Assets.at("images/ekito_footer.png")"></a></footer>
+            <footer@if(category.equals("map")||category.equals("drive")){ class="absolute-positionned"}>powered by <a href="http://ekito.fr"><img src="@routes.Assets.at("images/ekito_footer.png")"></a></footer>
         }
 
 		<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")" type="text/javascript"></script>
