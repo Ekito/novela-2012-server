@@ -10,7 +10,9 @@ create table admin_user (
 
 create sequence admin_user_seq;
 
-
+CREATE INDEX userid_index ON location (user_Id);
+CREATE INDEX id_index ON location (id);
+CREATE INDEX id_userid_index ON location (id,user_Id);
 
 
 # --- !Downs
