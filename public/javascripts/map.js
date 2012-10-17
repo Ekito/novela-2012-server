@@ -96,18 +96,24 @@ $.map = {
 	*/
 
 	loadPoints: function(bounds) {
+
+		var data = {
+                	userId: $.map.myId,
+                	zoom: $.map.olMap.getZoom()
+                };
+
+        if (bounds) {
+        	data.minLat = bounds.bottom;
+        	data.maxLat = bounds.top;
+        	data.minLon = bounds.left;
+        	data.maxLon = bounds.right;
+        }
+
 		$.ajax(
 			{
                 url: "/location/area", // TODO NDE: use a jsroute
                 method: 'get',
-                data: {
-                	minLat: bounds.bottom,   // TODO NDE: find a good center
-                	maxLat: bounds.top,
-                	minLon: bounds.left,
-                	maxLon: bounds.right,
-                	userId: $.map.myId,
-                	zoom: $.map.olMap.getZoom()
-                },
+                data: data,
                 success : function(data) {
                 	//console.log("myid: "+$.map.myId);
 					$.map.removeAllTracks();
@@ -212,6 +218,12 @@ $.map = {
 	/* center map to reference bounds (ie Toulouse) */
 	setBoundsToReference: function() {
 		this.setBounds(this.referenceBounds);
+	},
+
+	updateMyId: function(userId) {
+		this.myId = userId;
+		$.map.centered = false;
+		this.loadPoints();
 	},
 
 	/* PRIVATE METHODS */

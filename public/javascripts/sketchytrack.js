@@ -115,6 +115,8 @@ Sketchytrack.Layer = OpenLayers.Class(OpenLayers.Layer, {
 		for (i in idList) {
 			if (!this.myTracks[idList[i]]) {	// if it's not recorded yet
 				this.myTracks[idList[i]] = true;
+			} else {
+				this.myTracks[idList[i]] = false;
 			}
 		}
 	},
