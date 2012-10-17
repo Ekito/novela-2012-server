@@ -15,6 +15,7 @@ create sequence admin_user_seq;
 
 # --- !Downs
 
+
 SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists admin_user;
