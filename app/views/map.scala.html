@@ -1,14 +1,18 @@
-@(userId:String)(hideControls:Boolean)
+@(userId:String)(hideControls:Boolean)(driveMode:Boolean)
 
 
 @css = {}
 
 @javascript = {
-	@map_js(userId)(hideControls)
+	@map_js(userId)(hideControls)(driveMode)
 }
 
 
-@main(title=Messages("title"))(category="map")(userId != null)(userId != null)(javascript)(css) {
+@main(title=Messages("title"))(category=if(driveMode){"drive"}else{"map"})(userId != null)(userId != null)(javascript)(css) {
+
+	@if(driveMode) {
+		<div class="alert">@Messages("drive.alert")</div>
+	}
 
 	@map_canvas(userId)(hideControls)
 	

@@ -1,4 +1,4 @@
-@(userId:String)(hideControls:Boolean)
+@(userId:String)(hideControls:Boolean)(driveMode: Boolean)
 
 <script src="http://openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
 	
@@ -12,7 +12,7 @@
 
 <script type="text/javascript">
 $(document).ready(function() {
-		$.map.init(@hideControls,"@userId");
+		$.map.init(@hideControls,"@userId",@driveMode);
 		
 		function onMessage(message) {
 	    	
@@ -45,10 +45,17 @@ $(document).ready(function() {
 	    }
 		
 		function onQueueMessage(message) {
-	    	
+
 	    	var location = JSON.parse(message.getText());
 			
-	    	$.map.setCenter(location,10);
+	    	var zoom = 10;
+
+	    	// non mobile targets
+	    	if ($.map.myId == "") {
+	    		zoom = location.zoom;
+	    	} 
+
+	    	$.map.setCenter(location,zoom);
 	    	
 	    	console.log("center on : " + location)
 	    }

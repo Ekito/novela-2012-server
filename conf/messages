@@ -1,8 +1,11 @@
 title = 510 067 420 km² de dessin
 drawing = Dessin
 about = A propos
-dashboad = Dashboard
+users = Utilisateurs
+drive = Piloter gare
 mobile_apps = iPhone/Android
+
+drive.alert = Attention vous pilotez la carte de la gare!
 
 login.title = Login
 login.btn = Login

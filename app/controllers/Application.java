@@ -15,15 +15,15 @@ public class Application extends Controller {
 	}
 
 	public static Result map() {
-		return ok(views.html.map.render(null, false));
+		return ok(views.html.map.render(null, false, false));
 	}
 
 	public static Result focusedMap(final String userId) {
-		return ok(views.html.map.render(userId, false));
+		return ok(views.html.map.render(userId, false, false));
 	}
 
 	public static Result fullscreenMap() {
-		return ok(views.html.map.render(FULLSCREEN_MAP_ID, true));
+		return ok(views.html.map.render(FULLSCREEN_MAP_ID, true, false));
 	}
 
 	public static Result about(String lang) {

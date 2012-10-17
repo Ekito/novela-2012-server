@@ -11,6 +11,10 @@
       <a class="brand" href="@routes.Application.index()">@Messages("title")</a>
       <div class="nav-collapse">
         <ul class="nav">
+          @if(Secured.isLogged(ctx())) {
+          <li@if(category.equals("dashboard")){ class="active"}><a href="@routes.AdminController.dashboard()">@Messages("users")</a></li>
+          <li@if(category.equals("drive")){ class="active"}><a href="@routes.AdminController.mapInDrivingMode()">@Messages("drive")</a></li>
+          }
           <li@if(category.equals("map")){ class="active"}><a href="@routes.Application.map()">@Messages("drawing")</a></li>
         </ul>
         <ul class="nav pull-right">

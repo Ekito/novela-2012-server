@@ -48,4 +48,9 @@ public class AdminController extends Controller {
 		return redirect(routes.AdminController.dashboard());
 	}
 
+	@Security.Authenticated(Secured.class)
+	public static Result mapInDrivingMode() {
+		// drive mode is true!!
+		return ok(views.html.map.render(null, false, true));
+	}
 }

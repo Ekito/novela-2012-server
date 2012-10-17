@@ -13,9 +13,11 @@ $.map = {
 
 	myId: null,
 
+	inDriveMode: false,
+
 	referenceBounds: new OpenLayers.Bounds(1.282,43.570,1.520,43.653),
 
-	init: function(hideControls,myId,data) {
+	init: function(hideControls,myId,driveMode,data) {
 
 		/* instanciation */
 		if (hideControls) {
@@ -31,14 +33,20 @@ $.map = {
 		this.nextTrackId = 0;
 
 		this.myId = myId;
-		if (myId == "_USER_ID_") {
+		if (myId == $.constant.REF_ID) {
 			this.myId = "";
 		}
+
+		this.inDriveMode = driveMode;
 
 		/* listener when the map moves */
 		this.olMap.events.register("moveend", map, function() {
             var bounds = $.map.olMap.getExtent();
             $.map.loadPoints(bounds);
+
+			if ($.map.inDriveMode) {
+				$.map.driveRef();
+			}
         });
 
 		/* White layer */
@@ -128,6 +136,22 @@ $.map = {
                 	$.map.olTracks.redraw();
                 }
                 
+            }
+       	);
+	},
+
+	driveRef: function() {
+		var center = $.map.olMap.getCenter();
+		$.ajax(
+			{
+                url: "/location/center", // TODO NDE: use a jsroute
+                type: 'post',
+                data: {
+                	lat: center.lat,   // TODO NDE: find a good center
+                	lon: center.lon,
+                	userId: $.constant.REF_ID,
+                	zoom: $.map.olMap.getZoom()
+                }
             }
        	);
 	},
