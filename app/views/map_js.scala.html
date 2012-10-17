@@ -11,6 +11,15 @@
 <script src="@routes.Assets.at("javascripts/kaazing/kaazing.js")" type="text/javascript"></script>
 
 <script type="text/javascript">
+
+function startLoading() {
+	$("#circleG").show();
+}
+
+function stopLoading() {
+	$("#circleG").hide();
+}
+
 $(document).ready(function() {
 		$.map.init(@hideControls,"@userId",@driveMode);
 		

@@ -113,7 +113,10 @@ public class Location extends Model implements Comparable<Location> {
 	
 	public static List<User> getUsers() {
 		
-		SqlQuery query = Ebean.createSqlQuery("SELECT DISTINCT user_id FROM location;");
+		SqlQuery query = Ebean.createSqlQuery(
+			"SELECT user_id, server_date FROM location AS l WHERE server_date = "+
+				"(SELECT MIN(server_date) FROM location WHERE user_id = l.user_id)"+
+			"ORDER BY server_date");
 		List<SqlRow> locations = query.findList();
 		
 		return Lists.transform(locations, new Function<SqlRow, User>() {
