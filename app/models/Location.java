@@ -143,6 +143,8 @@ public class Location extends Model implements Comparable<Location> {
 			final Float maxLat, final Float minLon, final Float maxLon) {
 		
 		SqlQuery query = Ebean.createSqlQuery("select * from location where user_id in (select distinct l.user_id from location l where l.lat >= "+minLat+" and l.lat <="+maxLat+" and l.lon >= "+minLon+" and l.lon <= "+maxLon+")");
+//		query.setMaxRows(arg0)
+//		query.setFirstRow(arg0)
 		List<SqlRow> locations = query.findList();
 //		int size = locations.size();
 //		Logger.info("locations : "+size);
@@ -236,14 +238,16 @@ public class Location extends Model implements Comparable<Location> {
 		
 		// 10 => 2
 		Float coef = (1/(float)zoom) * 100;
-		Double c = Math.pow(coef, 1.5) -30;
+		Double c = Math.pow(coef, 2) -30;
 		
+		Date filterD = new Date();
 		List<Location> finalList = new ArrayList<Location>();
 		finalList.addAll(LocationFilter.filterNearLocations(result, c));
 		Collections.sort(finalList);
 		Date end = new Date();
 		long delta = end.getTime() - start.getTime();
-		Logger.info("result:"+finalList.size()+" in "+delta);
+		long deltaFilter = end.getTime() - filterD.getTime();
+		Logger.info("result:"+finalList.size()+" in "+delta+" filter:"+deltaFilter);
 		
 		return finalList;
 
