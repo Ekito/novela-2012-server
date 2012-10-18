@@ -210,11 +210,11 @@ public class Location extends Model {
 			Cache.set(key, result);
 			end = new Date();
 			long deltaFilter = end.getTime() - filterD.getTime();
-			Logger.info("filter:" + deltaFilter);
+			Logger.info("filtered in :" + deltaFilter+" ms");
 		}
 		end = new Date();
 		long delta = end.getTime() - start.getTime();
-		Logger.info("result:" + result.size() + " in " + delta);
+		Logger.info("getBoundedLocations result:" + result.size() + " in " + delta+" ms");
 		return result;
 
 	}
