@@ -28,7 +28,7 @@
                <a href="https://play.google.com/store/apps/details?id=com.ekito.novela2012&feature=search_result#?t=W251bGwsMSwyLDEsImNvbS5la2l0by5ub3ZlbGEyMDEyIl0.">Android</a>
             </div>
           </li>
-          <li@if(category.equals("about")){ class="active"}><a href="@routes.Application.about()">@Messages("about")</a></li>
+          <li@if(category.equals("about")){ class="active"}><a href="@routes.Application.about(Controller.lang().code())">@Messages("about")</a></li>
           @if(Secured.isLogged(ctx())) {
             <li><a href="@routes.AdminController.logout()">@Messages("login.logout")</a></li>
           }

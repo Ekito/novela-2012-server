@@ -1,7 +1,9 @@
 package controllers;
 
+import play.api.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.Result;
+import scala.reflect.generic.Trees.This;
 import views.html.about;
 import views.html.about_en;
 import views.html.map;
