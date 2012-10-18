@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import play.Logger;
 import play.cache.Cache;
 import play.db.ebean.Model;
+import play.db.ebean.Transactional;
 import util.LocationFilterJava;
 
 import com.avaje.ebean.Ebean;
@@ -53,10 +54,10 @@ public class Location extends Model {
 	public Location(final User aUser, final Double aLat, final Double aLon,
 			final Boolean aIsStart) {
 		this.user = aUser;
-		this.lat = LocationFilterJava.formatDouble(aLat);
-		this.lon = LocationFilterJava.formatDouble(aLon);
-//		this.lat = aLat;
-//		this.lon = aLon;
+//		this.lat = LocationFilterJava.formatDouble(aLat);
+//		this.lon = LocationFilterJava.formatDouble(aLon);
+		this.lat = aLat;
+		this.lon = aLon;
 		this.isStart = aIsStart;
 		this.serverDate = new Date();
 	}
@@ -175,6 +176,22 @@ public class Location extends Model {
 		});
 
 	}
+	
+	@Transactional
+	public static void formatAll() {
+		Date start = new Date();
+		Logger.info("formatAll begin ...");
+		List<Location> all = finder.all();
+		for(Location l : all){
+			l.setLat(LocationFilterJava.formatDouble(l.getLat()));
+			l.setLon(LocationFilterJava.formatDouble(l.getLon()));
+			l.save();
+		}
+		Date end = new Date();
+		long delta = end.getTime() - start.getTime();
+		Logger.info("formatAll in :" + delta+" ms");
+	}
+
 
 	public static List<Location> getBoundedLocations(final Float minLat,
 			final Float maxLat, final Float minLon, final Float maxLon,

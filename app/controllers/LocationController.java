@@ -12,6 +12,7 @@ import play.libs.Akka;
 import play.libs.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
+import util.LocationFilterJava;
 import bootstrap.Global;
 import controllers.forms.CenterForm;
 import controllers.forms.LocationArea;
@@ -40,6 +41,22 @@ public class LocationController extends Controller {
 				}
 			}));
 		}
+	}
+
+	public static Result formatLocations() {
+		return async(Akka.future(new Callable<Result>() {
+
+			@Override
+			public Result call() throws Exception {
+
+				formatAllLocations();
+				return ok();
+			}
+		}));
+	}
+
+	protected static void formatAllLocations() {
+		Location.formatAll();
 	}
 
 	protected static void sendCenterForm(CenterForm centerForm) {
@@ -116,7 +133,9 @@ public class LocationController extends Controller {
 	private static Location extractAndSaveLocation(
 			final LocationForm locationForm) {
 		Location l = new Location(new User(locationForm.userId),
-				locationForm.lat, locationForm.lon, locationForm.isStart);
+				LocationFilterJava.formatDouble(locationForm.lat),
+				LocationFilterJava.formatDouble(locationForm.lon),
+				locationForm.isStart);
 		Location.saveLocation(l);
 		return l;
 	}
