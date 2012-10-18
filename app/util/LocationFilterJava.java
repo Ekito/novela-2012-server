@@ -1,12 +1,26 @@
 package util;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import models.Location;
 
 public class LocationFilterJava {
+	
+	private static DecimalFormat decimalFormat;
 
+	public static DecimalFormat getDecimalFormater(){
+		if (decimalFormat == null){
+			decimalFormat = new DecimalFormat("0.0000");
+		}
+		return decimalFormat;
+	}
+	
+	public static Double formatDouble(double d){
+		 return new Double(getDecimalFormater().format(d).replace(",", "."));
+	}
+	
 	private static Boolean tooCloseLocations(Location l1, Location l2,
 			Double delta) {
 		Double d = Math.acos(Math.sin(l1.getLat()) * Math.sin(l2.getLat())

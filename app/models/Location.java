@@ -53,8 +53,10 @@ public class Location extends Model {
 	public Location(final User aUser, final Double aLat, final Double aLon,
 			final Boolean aIsStart) {
 		this.user = aUser;
-		this.lat = aLat;
-		this.lon = aLon;
+		this.lat = LocationFilterJava.formatDouble(aLat);
+		this.lon = LocationFilterJava.formatDouble(aLon);
+//		this.lat = aLat;
+//		this.lon = aLon;
 		this.isStart = aIsStart;
 		this.serverDate = new Date();
 	}
@@ -98,7 +100,7 @@ public class Location extends Model {
 	public void setLon(final Double y) {
 		this.lon = y;
 	}
-
+	
 	private static Finder<Long, Location> finder = new Finder<Long, Location>(
 			Long.class, Location.class);
 
