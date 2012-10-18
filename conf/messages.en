@@ -1,3 +1,18 @@
 title = 510 067 420 km² de dessin
 map = Map
 about = About
+
+title = Perembulations
+drawing = Drawing
+about = About
+users = Users
+drive = Drive station's screen
+mobile_apps = iPhone/Android
+
+drive.alert = You are in driving mode!
+
+login.title = Login
+login.btn = Login
+login.email = Email
+login.password = Password
+login.logout = Logout
