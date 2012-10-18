@@ -1,12 +1,9 @@
 package controllers;
 
-import play.api.i18n.Lang;
 import play.mvc.Controller;
 import play.mvc.Result;
-import scala.reflect.generic.Trees.This;
 import views.html.about;
 import views.html.about_en;
-import views.html.map;
 
 public class Application extends Controller {
 
@@ -29,7 +26,7 @@ public class Application extends Controller {
 	}
 
 	public static Result about(String lang) {
-		if (lang.equals("en")) {
+		if (lang.contains("en")) {
 			return ok(about_en.render(false));
 		} else {
 			return ok(about.render(false));			
@@ -37,7 +34,7 @@ public class Application extends Controller {
 	}
 
 	public static Result mobileAbout(String lang) {
-		if (lang.equals("en")) {
+		if (lang.contains("en")) {
 			return ok(about_en.render(true));
 		} else {
 			return ok(about.render(true));			
