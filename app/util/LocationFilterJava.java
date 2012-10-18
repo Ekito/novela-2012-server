@@ -22,20 +22,19 @@ public class LocationFilterJava {
 	public static List<Location> filterNearLocations(List<Location> locations,
 			Double delta) {
 		List<Location> newLocations = new ArrayList<Location>();
-		for(int i = 0; i< locations.size(); i++){
-			// is last
-			if (i == locations.size() - 1){
-				break;
-			}
-			else {
-				int j = i+1;
-				Location current = locations.get(i);
-				Location next = locations.get(j);
-				if (!areStartingPoints(current, next) && tooCloseLocations(current, next, delta)){
-				}
-				else{
+		for (int i = 0; i < locations.size(); i++) {
+			Location current = locations.get(i);
+			if (!newLocations.isEmpty()) {
+				// is last
+				Location last = newLocations.get(newLocations.size() - 1);
+				if (!areStartingPoints(current, last)
+						&& tooCloseLocations(current, last, delta)) {
+				} else {
 					newLocations.add(current);
 				}
+			}
+			else{
+				newLocations.add(current);
 			}
 		}
 		return newLocations;
