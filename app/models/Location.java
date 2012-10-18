@@ -14,6 +14,7 @@ import javax.persistence.Id;
 import play.Logger;
 import play.db.ebean.Model;
 import util.LocationFilter;
+import util.LocationFilterJava;
 
 import com.avaje.ebean.Ebean;
 import com.avaje.ebean.SqlQuery;
@@ -142,7 +143,7 @@ public class Location extends Model implements Comparable<Location> {
 	public static List<Location> getLocationsForArea(final Float minLat,
 			final Float maxLat, final Float minLon, final Float maxLon) {
 		
-		SqlQuery query = Ebean.createSqlQuery("select * from location where user_id in (select distinct l.user_id from location l where l.lat >= "+minLat+" and l.lat <="+maxLat+" and l.lon >= "+minLon+" and l.lon <= "+maxLon+")");
+		SqlQuery query = Ebean.createSqlQuery("select * from location where user_id in (select distinct l.user_id from location l where l.lat >= "+minLat+" and l.lat <="+maxLat+" and l.lon >= "+minLon+" and l.lon <= "+maxLon+") order by server_date");
 //		query.setMaxRows(arg0)
 //		query.setFirstRow(arg0)
 		List<SqlRow> locations = query.findList();
@@ -238,12 +239,20 @@ public class Location extends Model implements Comparable<Location> {
 		
 		// 10 => 2
 		Float coef = (1/(float)zoom) * 100;
-		Double c = Math.pow(coef, 2) -30;
+		Double c = Math.pow(coef, 1.5) -30;
 		
 		Date filterD = new Date();
-		List<Location> finalList = new ArrayList<Location>();
-		finalList.addAll(LocationFilter.filterNearLocations(result, c));
-		Collections.sort(finalList);
+		
+//		List<Location> finalList = new ArrayList<Location>();
+//		finalList.addAll(LocationFilter.filterNearLocations(result, c));
+//		Collections.sort(finalList);
+//		Logger.info("scala points :"+finalList.size());
+		
+		List<Location> finalList = LocationFilterJava.filterNearLocations(result, c);
+//		Collections.sort(finalList);
+		
+//		Logger.info("java points  : "+finalList.size());
+		
 		Date end = new Date();
 		long delta = end.getTime() - start.getTime();
 		long deltaFilter = end.getTime() - filterD.getTime();
