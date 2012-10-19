@@ -2,6 +2,7 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import javax.annotation.Nullable;
 import javax.persistence.Column;
@@ -54,8 +55,8 @@ public class Location extends Model {
 	public Location(final User aUser, final Double aLat, final Double aLon,
 			final Boolean aIsStart) {
 		this.user = aUser;
-//		this.lat = LocationFilterJava.formatDouble(aLat);
-//		this.lon = LocationFilterJava.formatDouble(aLon);
+		// this.lat = LocationFilterJava.formatDouble(aLat);
+		// this.lon = LocationFilterJava.formatDouble(aLon);
 		this.lat = aLat;
 		this.lon = aLon;
 		this.isStart = aIsStart;
@@ -101,7 +102,7 @@ public class Location extends Model {
 	public void setLon(final Double y) {
 		this.lon = y;
 	}
-	
+
 	private static Finder<Long, Location> finder = new Finder<Long, Location>(
 			Long.class, Location.class);
 
@@ -176,66 +177,112 @@ public class Location extends Model {
 		});
 
 	}
-	
+
 	@Transactional
 	public static void formatAll() {
 		Date start = new Date();
 		Logger.info("formatAll begin ...");
 		List<Location> all = finder.all();
-		for(Location l : all){
+		for (Location l : all) {
 			l.setLat(LocationFilterJava.formatDouble(l.getLat()));
 			l.setLon(LocationFilterJava.formatDouble(l.getLon()));
 			l.save();
 		}
 		Date end = new Date();
 		long delta = end.getTime() - start.getTime();
-		Logger.info("formatAll in :" + delta+" ms");
+		Logger.info("formatAll in :" + delta + " ms");
 	}
-
 
 	public static List<Location> getBoundedLocations(final Float minLat,
 			final Float maxLat, final Float minLon, final Float maxLon,
-			String givenUserId, Integer zoom) {
+			final String givenUserId, final Integer zoom) {
 
 		Date start = new Date();
-		String key = getCacheKey(minLat, maxLat, minLon, maxLon, givenUserId,
-				zoom);
-		Date end = null;
-		@SuppressWarnings("unchecked")
-		List<Location> result = (List<Location>) Cache.get(key);
+		List<Location> result = null;
+
 		if (result == null) {
+			// mobile
 			if (givenUserId != null && !givenUserId.isEmpty()
 					&& !givenUserId.equals(Application.FULLSCREEN_MAP_ID)) {
-				result = finder.where().eq("user.id", givenUserId)
-						.orderBy("serverDate").findList();
-			} else {
-				// select * from location where user_id in (select distinct
-				// user_id from location where lat >= 43.6010 and lat <=43.605
-				// and lon >= 1.441 and lon <=1.443)
-				result = getLocationsForArea(minLat, maxLat, minLon, maxLon);
+
+				String key = getCacheKey(minLat, maxLat, minLon, maxLon,
+						givenUserId, zoom);
+
+				try {
+					result = Cache.getOrElse(key, new Callable<List<Location>>() {
+						@Override
+						public List<Location> call() throws Exception {
+							Logger.info("gettLocationsForArea for mobile "+minLat+" : "+maxLat+" : "+ minLon+" : "+ maxLon);
+							return finder.where().eq("user.id", givenUserId)
+									.orderBy("serverDate").findList();
+						}
+					}, 1 * 60);
+				} catch (Exception e) {
+					Logger.error("getBoundedLocations error "+e);
+				}
+
 			}
+			// train station
+			else if (givenUserId.equals(Application.FULLSCREEN_MAP_ID)) {
+				String key = Application.FULLSCREEN_MAP_ID;
 
-			// 10 => 2
-			Float coef = (1 / (float) zoom) * 100;
-			Double c = Math.pow(coef, 1.5) - 30;
-
-			Date filterD = new Date();
-
-			List<Location> finalList = LocationFilterJava.filterNearLocations(
-					result, c);
-			result = finalList;
-			// Logger.info("java points  : "+finalList.size());
-
-			Cache.set(key, result);
-			end = new Date();
-			long deltaFilter = end.getTime() - filterD.getTime();
-			Logger.info("filtered in :" + deltaFilter+" ms");
+				try {
+					result = Cache.getOrElse(key, new Callable<List<Location>>() {
+						@Override
+						public List<Location> call() throws Exception {
+							Logger.info("getLocationsForArea for fullscreen "+minLat+" : "+maxLat+" : "+ minLon+" : "+ maxLon);
+							return filterPoints(
+									zoom,
+									getLocationsForArea(minLat, maxLat, minLon,
+											maxLon));
+						}
+					}, 1 * 60);
+				} catch (Exception e) {
+					Logger.error("getBoundedLocations for fullscreen error "+e);
+				}
+			}
+			// map
+			else {
+				try {
+					result = Cache.getOrElse("default", new Callable<List<Location>>() {
+						@Override
+						public List<Location> call() throws Exception {
+							Logger.info("getDefaultLocationsForArea map");
+							return filterPoints(
+									zoom,getDefaultLocationsForArea());
+						}
+					}, 10 * 60);
+				} catch (Exception e) {
+					Logger.error("getDefaultLocationsForArea error "+e);
+				}
+			}
 		}
-		end = new Date();
+
+		Date end = new Date();
 		long delta = end.getTime() - start.getTime();
-		Logger.info("getBoundedLocations result:" + result.size() + " in " + delta+" ms");
+		Logger.info("getBoundedLocations result:" + result.size() + " in "
+				+ delta + " ms");
 		return result;
 
+	}
+
+	protected static List<Location> getDefaultLocationsForArea() {
+		return getLocationsForArea(43.532745f, 43.690254f, 1.2011197f, 1.6008803f);
+	}
+
+	private static List<Location> filterPoints(Integer zoom,
+			List<Location> result) {
+		Date filterD = new Date();
+		Float coef = (1 / (float) zoom) * 100;
+		Double c = Math.pow(coef, 1.5) - 30;
+		List<Location> finalList = LocationFilterJava.filterNearLocations(
+				result, c);
+		result = finalList;
+
+		Date end = new Date();
+		long deltaFilter = end.getTime() - filterD.getTime();
+		Logger.info("filtered in :" + deltaFilter + " ms");
+		return result;
 	}
 
 	private static String getCacheKey(Float minLat, Float maxLat, Float minLon,
