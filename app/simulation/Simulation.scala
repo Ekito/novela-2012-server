@@ -59,7 +59,7 @@ object Simulation {
       true
     }
 
-    val locations = Dataset.findLocations(Dataset.SIMULATION_DATASET_JSON ,userId)
+    val locations = Dataset.findLocations(userId)
     if (locations == null) {
       false
     } else {
