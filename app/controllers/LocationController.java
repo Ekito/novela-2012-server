@@ -132,9 +132,7 @@ public class LocationController extends Controller {
 
 	private static Location extractAndSaveLocation(
 			final LocationForm locationForm) {
-		Location l = new Location(new User(locationForm.userId),
-				LocationFilterJava.formatDouble(locationForm.lat),
-				LocationFilterJava.formatDouble(locationForm.lon),
+		Location l = new Location(new User(locationForm.userId),locationForm.lat,locationForm.lon,
 				locationForm.isStart);
 		Location.saveLocation(l);
 		return l;

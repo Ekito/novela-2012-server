@@ -249,7 +249,7 @@ public class Location extends Model {
 						public List<Location> call() throws Exception {
 							Logger.info("getDefaultLocationsForArea map");
 							return filterPoints(
-									zoom,getDefaultLocationsForArea());
+									zoom,getAllLocationsForArea());
 						}
 					}, 10 * 60);
 				} catch (Exception e) {
@@ -264,6 +264,10 @@ public class Location extends Model {
 				+ delta + " ms");
 		return result;
 
+	}
+
+	protected static List<Location> getAllLocationsForArea() {
+		return finder.where().orderBy("serverDate").findList();
 	}
 
 	protected static List<Location> getDefaultLocationsForArea() {
